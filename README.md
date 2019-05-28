@@ -2,7 +2,7 @@
 
 ## Information:
 ### Brief Description:
-A Hotel Management System with the MVP being: Rooms (Add, Edit, Assign Customer, Reservation History, etc.) Customers (Add, Edit, etc.)
+A Hotel Management System with the MVP being: Rooms, (Add, Edit, Reservation History, etc.) Customers, (Add, Edit, etc.) Services, (Add, edit, etc.) and full control over Reservation (Extending stay, canceling, etc.) and simple statistical overview of the hotel
 
 ### Technologies Used:
 
