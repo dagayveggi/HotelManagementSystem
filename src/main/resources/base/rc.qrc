@@ -1,0 +1,11 @@
+<RCC>
+  <qresource prefix="Res">
+    <file>48px-Appointment-new.svg.png</file>
+  </qresource>
+  <qresource prefix="srv">
+    <file>48px-Edit-clear.svg.png</file>
+  </qresource>
+  <qresource prefix="rm">
+    <file>48px-Go-home-2.svg.png</file>
+  </qresource>
+</RCC>
