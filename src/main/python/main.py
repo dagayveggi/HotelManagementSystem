@@ -1,13 +1,13 @@
 from fbs_runtime.application_context import ApplicationContext
 from PyQt5.QtWidgets import QMainWindow
-from newReservation import Ui_MainWindow
+from newReservation import Ui_Reservation
 import sqlite3
 
 import sys
 
 class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
     def run(self):                              # 2. Implement run()
-        ui = Ui_MainWindow()
+        ui = Ui_Reservation()
         window = QMainWindow()
         version = self.build_settings['version']
         ui.setupUi(window)
