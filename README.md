@@ -1,9 +1,9 @@
 # HotelManagementSystem
 
-**Brief Description:
+** Brief Description:
 A Hotel Management System with the MVP being: Rooms (Add, Edit, Assign Customer, Reservation History, etc.) Customers (Add, Edit, etc.)
 
-**Technologies Used:
+** Technologies Used:
 
 - Python 3.7
 - PyQt5: For the GUI and (possibly database connection)
