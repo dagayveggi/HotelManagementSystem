@@ -1,4 +1,2 @@
-.vscode
-target/
 __pycache__
 *.pyc
