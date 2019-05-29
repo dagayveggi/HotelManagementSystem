@@ -95,7 +95,9 @@ class tableWorker(QtCore.QObject):
     
     @QtCore.pyqtSlot()
     def _run_update(self):
-        self.fn
-        self.finished.emit()
+        try:
+            self.fn
+        finally:
+            self.finished.emit()
 
 import rc_rc
