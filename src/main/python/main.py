@@ -2,13 +2,12 @@ from fbs_runtime.application_context import ApplicationContext
 from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5.QtCore import QThread
 from PyQt5 import QtCore
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
+from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from newReservation import Ui_Reservation
 from room import Ui_Room
 from customer import Ui_Customer
 from service import Ui_Service
 from mainwin import Ui_MainWindow, tableWorker
-#import sqlite3
 
 import sys
 
