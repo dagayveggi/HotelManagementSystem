@@ -32,6 +32,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.tableView = QtWidgets.QTableView(self.groupBox)
         self.tableView.setObjectName("tableView")
+        self.tableView.setEditTriggers(self.tableView.NoEditTriggers)
         self.chartView = QtChart.QChartView(self.groupBox_2)
         self.chartView_2 = QtChart.QChartView(self.groupBox_3)
         self.gridLayout_4.addWidget(self.chartView_2, 0, 0, 1, 1)

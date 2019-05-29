@@ -1,5 +1,6 @@
 from fbs_runtime.application_context import ApplicationContext
 from PyQt5.QtWidgets import QMainWindow, QDialog
+from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
 from newReservation import Ui_Reservation
 from room import Ui_Room
 from customer import Ui_Customer
