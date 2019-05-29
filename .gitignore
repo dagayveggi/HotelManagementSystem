@@ -1,2 +1,5 @@
 .vscode
 target/
+__pycache__
+*.pyc
+*__pycache__
