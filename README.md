@@ -18,6 +18,7 @@ I aim to build a reliable Hotel Management system with data accessibility and us
 
 ### Debugging:
 `cd` into the repository and `fbs run`
+*Note: `fbs run` doesn't work because of importing QtChart, please use `py main.py` instead*
 
 ### Deploying:
 `cd` into the repository and `fbs freeze` which will generate a `target` file. Open that file and go into the `HotelManagementSystem` file and run `HotelManagementSystem.exe`
