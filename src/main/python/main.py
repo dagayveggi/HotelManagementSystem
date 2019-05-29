@@ -3,11 +3,13 @@ from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5.QtCore import QThread
 from PyQt5 import QtCore
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
-from newReservation import Ui_Reservation
-from room import Ui_Room
-from customer import Ui_Customer
-from service import Ui_Service
-from mainwin import Ui_MainWindow, tableWorker
+from UI.newReservation import Ui_Reservation
+from UI.room import Ui_Room
+from UI.customer import Ui_Customer
+from UI.service import Ui_Service
+from UI.mainwin import Ui_MainWindow, tableWorker
+from Ops.service_ops import addSrv, delSrv
+from random import randrange
 
 import sys
 
@@ -70,9 +72,14 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         newRm.exec()
     
     def newServiceDialog(self):
+        db = QSqlDatabase('QSQLITE')
+        db.setDatabaseName(self.get_resource('hotel.db'))
         ui = Ui_Service()
         newSrv = QDialog()
         ui.setupUi(newSrv)
+        ui.pushButton.clicked.connect(lambda: addSrv(None, ui, newSrv, db))
+        ui.pushButton_3.clicked.connect(lambda: delSrv(None, ui, newSrv, db))
+        ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
         newSrv.setWindowTitle('Create a new Service')
         newSrv.exec()
 

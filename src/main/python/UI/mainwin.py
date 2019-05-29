@@ -100,4 +100,4 @@ class tableWorker(QtCore.QObject):
         finally:
             self.finished.emit()
 
-import rc_rc
+import UI.rc_rc
