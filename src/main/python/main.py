@@ -38,57 +38,61 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         model = QSqlTableModel(self.app, db)
 
         #Setup Signals
-        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db, model))
-        ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db, model))
-        ui.newService.triggered.connect(lambda: self.new_srv_dialog(db, model))
-        ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db, model))
+        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db))
+        ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db))
+        ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
+        ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
 
         #Threading
         #! tableWorker updates mainwin's tableView every time it's called
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(update_table("Room", hlist, ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("Room", hlist, ui.current_res, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
 
-    def new_res_dialog(self, db, model):
+    def new_res_dialog(self, db):
         ui = Ui_Reservation()
         newRes = QDialog()
         ui.setupUi(newRes)
         newRes.setWindowTitle('Create, edit, or delete a Reservation')
         newRes.exec()
     
-    def new_room_dialog(self, db, model):
+    def new_room_dialog(self, db):
         ui = Ui_Room()
         newRm = QDialog()
         ui.setupUi(newRm)
         newRm.setWindowTitle('Create, edit, or delete a Room')
         newRm.exec()
 
-    def new_customer_dialog(self, db, model):
+    def new_customer_dialog(self, db):
         ui = Ui_Customer()
         new_cust = QDialog()
         ui.setupUi(new_cust)
 
+        model = QSqlTableModel(self.app, db)
+
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(update_table("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui.tableView, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()
     
-    def new_srv_dialog(self, db, model):
+    def new_srv_dialog(self, db):
         #Setup UI
         ui = Ui_Service()
         new_srv = QDialog()
         ui.setupUi(new_srv)
 
+        model = QSqlTableModel(self.app, db)
+
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui.tableView, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements

@@ -8,7 +8,7 @@ class tableWorker(QRunnable):
     def run(self):
         self.fn
 
-def update_table(table, headers, ui, db, model):
+def update_table(table, headers, widget, db, model):
         db.open()
         model.setTable(table)
         num = 0
@@ -16,5 +16,5 @@ def update_table(table, headers, ui, db, model):
             model.setHeaderData(num, Qt.Horizontal, i)
             num+=1
         model.select()
-        ui.tableView.setModel(model)
+        widget.setModel(model)
         db.close()

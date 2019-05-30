@@ -20,7 +20,7 @@ def add_srv(ui, window, db, thrd, model):
     ui.lineEdit.clear()
     ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model))
+    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui.tableView, db, model))
     thrd.tryStart(worker)
 
 def del_srv(ui, window, db, thrd, model):
@@ -39,7 +39,7 @@ def del_srv(ui, window, db, thrd, model):
     ui.lineEdit.clear()
     ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model))
+    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui.tableView, db, model))
     thrd.tryStart(worker)
 
 def edit_srv(ui, window, db, thrd, model):
@@ -61,5 +61,5 @@ def edit_srv(ui, window, db, thrd, model):
     ui.lineEdit.clear()
     ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model))
+    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui.tableView, db, model))
     thrd.tryStart(worker)
