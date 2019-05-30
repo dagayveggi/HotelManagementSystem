@@ -40,7 +40,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         #Setup Signals
         ui.newRes.triggered.connect(lambda: self.new_res_dialog(db, model))
         ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db, model))
-        ui.newService.triggered.connect(lambda: self.newServiceDialog(db, model))
+        ui.newService.triggered.connect(lambda: self.new_srv_dialog(db, model))
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db, model))
 
         #Threading
@@ -90,7 +90,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()
     
-    def newServiceDialog(self, db, model):
+    def new_srv_dialog(self, db, model):
         #Setup UI
         ui = Ui_Service()
         new_srv = QDialog()
