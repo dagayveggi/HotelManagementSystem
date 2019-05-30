@@ -87,17 +87,12 @@ class Ui_MainWindow(object):
         self.newService.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create a new Service</p></body></html>"))
         self.newService.setShortcut(_translate("MainWindow", "Ctrl+S"))
 
-class tableWorker(QtCore.QObject):
-    finished = QtCore.pyqtSignal()
-    def __init__(self, fn, *args, **kwargs):
+class tableWorker(QtCore.QRunnable):
+    def __init__(self, fn):
         super(tableWorker, self).__init__()
         self.fn = fn
     
-    @QtCore.pyqtSlot()
-    def _run_update(self):
-        try:
-            self.fn
-        finally:
-            self.finished.emit()
+    def run(self):
+        self.fn
 
 import UI.rc_rc

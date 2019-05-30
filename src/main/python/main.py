@@ -1,6 +1,6 @@
 from fbs_runtime.application_context import ApplicationContext
 from PyQt5.QtWidgets import QMainWindow, QDialog
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QThread, QThreadPool
 from PyQt5 import QtCore
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from UI.newReservation import Ui_Reservation
@@ -33,18 +33,19 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newService.triggered.connect(self.newServiceDialog)
 
         #Threading
-        thrd = QThread()
+        thrd = QThreadPool()
         worker = tableWorker(self.updateTable(ui, db, model)) #We pass a function for the worker to execute
-        worker.moveToThread(thrd)
+        """worker.moveToThread(thrd)
         thrd.start()
         thrd.started.connect(worker._run_update)
-        worker.finished.connect(thrd.quit)
+        worker.finished.connect(thrd.quit)"""
+        thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
 
     def updateTable(self, ui, db, model):
         db.open()
-        model.setTable(f"Room")
+        model.setTable("Room")
         model.setHeaderData(0, QtCore.Qt.Horizontal,'Reserv. ID')
         model.setHeaderData(1, QtCore.Qt.Horizontal,'Customer ID')
         model.setHeaderData(2, QtCore.Qt.Horizontal,'Room #')
@@ -83,18 +84,14 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.setupUi(newSrv)
 
         #Setup Threading
-        thrd = QThread()
+        thrd = QThreadPool()
         worker = tableWorker(updateSrvTable(ui, db, model)) #We pass a function for the worker to execute
-        worker.moveToThread(thrd)
-        thrd.start()
-        thrd.started.connect(worker._run_update)
-        worker.finished.connect(thrd.quit)
+        thrd.globalInstance().tryStart(worker)
 
         #Setup Signals and other UI elements
-        #TODO Update table after each command, maybe through signals or by passing the thrd to the funcs
-        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db))
-        ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db))
-        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db))
+        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model))
+        ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db, thrd, model))
+        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db, thrd, model))
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #execute
