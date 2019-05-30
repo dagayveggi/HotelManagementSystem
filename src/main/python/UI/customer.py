@@ -98,9 +98,6 @@ class Ui_Customer(object):
         self.gridLayout_3.addWidget(self.pushButton, 3, 0, 1, 1)
         self.gridLayout_2.addWidget(self.groupBox_2, 12, 1, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 2)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

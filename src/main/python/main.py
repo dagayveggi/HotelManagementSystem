@@ -1,7 +1,7 @@
 from fbs_runtime.application_context import ApplicationContext
 from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5.QtCore import QThread, QThreadPool
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtChart
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from UI.newReservation import Ui_Reservation
 from UI.room import Ui_Room
@@ -21,17 +21,27 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         version = self.build_settings['version']
         ui.setupUi(window)
         window.setWindowTitle("HotelManagementSystem v" + version)
-        #window.resize(350, 150)
-        window.show()
+
+        #Setup Charts
+        ui.chartView = QtChart.QChartView(window)
+        ui.chartView_2 = QtChart.QChartView(window)
+        ui.gridLayout_3 = QtWidgets.QGridLayout(ui.groupBox_2)
+        ui.gridLayout_3.addWidget(ui.chartView, 0, 0, 1, 1)
+        ui.gridLayout_4 = QtWidgets.QGridLayout(ui.groupBox_3)
+        ui.gridLayout_4.addWidget(ui.chartView_2, 0, 0, 1, 1)
+
+        window.showMaximized()
 
         #Database connection, instead of sqlite3
         db = QSqlDatabase('QSQLITE')
         db.setDatabaseName(self.get_resource('hotel.db'))
         model = QSqlTableModel(self.app, db)
 
+        #Setup Signals
         ui.newRes.triggered.connect(self.newResDialog)
         ui.newRoom.triggered.connect(self.newRoomDialog)
         ui.newService.triggered.connect(self.newServiceDialog)
+        ui.newCustomer.triggered.connect(self.newCustomerDialog)
 
         #Threading
         thrd = QThreadPool().globalInstance()
@@ -60,15 +70,22 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui = Ui_Reservation()
         newRes = QDialog()
         ui.setupUi(newRes)
-        newRes.setWindowTitle('Create a new Reservation')
+        newRes.setWindowTitle('Create, edit, or delete a Reservation')
         newRes.exec()
     
     def newRoomDialog(self):
         ui = Ui_Room()
         newRm = QDialog()
         ui.setupUi(newRm)
-        newRm.setWindowTitle('Create a new Room')
+        newRm.setWindowTitle('Create, edit, or delete a Room')
         newRm.exec()
+
+    def newCustomerDialog(self):
+        ui = Ui_Customer()
+        newCust = QDialog()
+        ui.setupUi(newCust)
+        newCust.setWindowTitle('Create, edit, or delete a Customer')
+        newCust.exec()
     
     def newServiceDialog(self):
         #setup DB
@@ -93,7 +110,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #execute
-        newSrv.setWindowTitle('Create a new Service')
+        newSrv.setWindowTitle('Create, edit, or delete a Service')
         newSrv.exec()
 
 if __name__ == '__main__':

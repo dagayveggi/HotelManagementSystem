@@ -98,7 +98,6 @@ class Ui_Room(object):
         self.comboBox.addItem("")
         self.gridLayout_2.addWidget(self.comboBox, 7, 1, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 2)
-        #MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
