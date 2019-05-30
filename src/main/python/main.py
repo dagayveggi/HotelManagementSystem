@@ -33,12 +33,9 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newService.triggered.connect(self.newServiceDialog)
 
         #Threading
-        thrd = QThreadPool()
+        thrd = QThreadPool().globalInstance()
+        thrd.setExpiryTimeout(5)
         worker = tableWorker(self.updateTable(ui, db, model)) #We pass a function for the worker to execute
-        """worker.moveToThread(thrd)
-        thrd.start()
-        thrd.started.connect(worker._run_update)
-        worker.finished.connect(thrd.quit)"""
         thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
@@ -84,9 +81,9 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.setupUi(newSrv)
 
         #Setup Threading
-        thrd = QThreadPool()
+        thrd = QThreadPool().globalInstance()
         worker = tableWorker(updateSrvTable(ui, db, model)) #We pass a function for the worker to execute
-        thrd.globalInstance().tryStart(worker)
+        thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
         ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model))
