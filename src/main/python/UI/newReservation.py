@@ -1,40 +1,42 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'src/main/resources/newReservation.ui'
+# Form implementation generated from reading ui file 'c:\Users\DELL\Desktop\HotelManagementSystem\src\main\resources\base\newReservation.ui'
 #
-# Created by: PyQt5 UI code generator 5.12
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_Reservation(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(480, 291)
-        MainWindow.setBaseSize(QtCore.QSize(0, 0))
-        """self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")"""
-        self.gridLayout = QtWidgets.QGridLayout(MainWindow)
+    def setupUi(self, Reservation):
+        Reservation.setObjectName("Reservation")
+        Reservation.resize(480, 319)
+        Reservation.setBaseSize(QtCore.QSize(0, 0))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/Res/48px-Appointment-new.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Reservation.setWindowIcon(icon)
+        self.gridLayout_2 = QtWidgets.QGridLayout(Reservation)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
-        self.groupBox = QtWidgets.QGroupBox(MainWindow)
+        self.groupBox = QtWidgets.QGroupBox(Reservation)
         self.groupBox.setObjectName("groupBox")
         self.formLayout = QtWidgets.QFormLayout(self.groupBox)
         self.formLayout.setObjectName("formLayout")
         self.label_3 = QtWidgets.QLabel(self.groupBox)
         self.label_3.setObjectName("label_3")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_3)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_3)
         self.comboBox = QtWidgets.QComboBox(self.groupBox)
         self.comboBox.setEditable(True)
         self.comboBox.setObjectName("comboBox")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.comboBox)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.comboBox)
         self.label_4 = QtWidgets.QLabel(self.groupBox)
         self.label_4.setObjectName("label_4")
-        self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_4)
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_4)
         self.comboBox_2 = QtWidgets.QComboBox(self.groupBox)
         self.comboBox_2.setObjectName("comboBox_2")
-        self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.comboBox_2)
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.comboBox_2)
         self.groupBox_2 = QtWidgets.QGroupBox(self.groupBox)
         self.groupBox_2.setFlat(False)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -56,47 +58,55 @@ class Ui_Reservation(object):
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.dateEdit_2)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.formLayout_2.setItem(1, QtWidgets.QFormLayout.FieldRole, spacerItem)
-        self.formLayout.setWidget(7, QtWidgets.QFormLayout.SpanningRole, self.groupBox_2)
+        self.formLayout.setWidget(8, QtWidgets.QFormLayout.SpanningRole, self.groupBox_2)
         self.checkBox = QtWidgets.QCheckBox(self.groupBox)
         self.checkBox.setObjectName("checkBox")
-        self.formLayout.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.checkBox)
+        self.formLayout.setWidget(11, QtWidgets.QFormLayout.LabelRole, self.checkBox)
         self.spinBox = QtWidgets.QSpinBox(self.groupBox)
         self.spinBox.setEnabled(False)
         self.spinBox.setFrame(True)
         self.spinBox.setSuffix("")
         self.spinBox.setMaximum(100)
-        self.spinBox.setSingleStep(10)
         self.spinBox.setObjectName("spinBox")
-        self.formLayout.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.spinBox)
+        self.formLayout.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.spinBox)
         self.pushButton = QtWidgets.QPushButton(self.groupBox)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/commands/48px-Ambox_emblem_plus.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton.setIcon(icon1)
         self.pushButton.setObjectName("pushButton")
-        self.formLayout.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.pushButton)
+        self.formLayout.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.pushButton)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.formLayout.setItem(6, QtWidgets.QFormLayout.LabelRole, spacerItem1)
+        self.formLayout.setItem(7, QtWidgets.QFormLayout.LabelRole, spacerItem1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.formLayout.setItem(9, QtWidgets.QFormLayout.LabelRole, spacerItem2)
+        self.formLayout.setItem(10, QtWidgets.QFormLayout.LabelRole, spacerItem2)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.formLayout.setItem(11, QtWidgets.QFormLayout.FieldRole, spacerItem3)
+        self.formLayout.setItem(12, QtWidgets.QFormLayout.FieldRole, spacerItem3)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.formLayout.setItem(3, QtWidgets.QFormLayout.FieldRole, spacerItem4)
+        self.formLayout.setItem(4, QtWidgets.QFormLayout.FieldRole, spacerItem4)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
+        self.label_5.setObjectName("label_5")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_5)
+        self.lineEdit = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit.setObjectName("lineEdit")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEdit)
         self.gridLayout.addWidget(self.groupBox, 1, 0, 1, 1)
-        #MainWindow.setCentralWidget(self.centralwidget)
-        self.checkBox.stateChanged.connect(self.spinBox.setEnabled)
+        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(Reservation)
+        QtCore.QMetaObject.connectSlotsByName(Reservation)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, Reservation):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "New Reservation"))
-        self.groupBox.setTitle(_translate("MainWindow", "Reserve A Room"))
-        self.label_3.setText(_translate("MainWindow", "Customer:"))
-        self.label_4.setText(_translate("MainWindow", "Room:"))
-        self.groupBox_2.setTitle(_translate("MainWindow", "Date of Reservation"))
-        self.label.setText(_translate("MainWindow", "From:"))
-        self.label_2.setText(_translate("MainWindow", "To:"))
-        self.checkBox.setText(_translate("MainWindow", "Discount?"))
-        self.spinBox.setPrefix(_translate("MainWindow", "%"))
-        self.pushButton.setText(_translate("MainWindow", "Reserve"))
+        Reservation.setWindowTitle(_translate("Reservation", "New Reservation"))
+        self.groupBox.setTitle(_translate("Reservation", "Reserve A Room"))
+        self.label_3.setText(_translate("Reservation", "Customer:"))
+        self.label_4.setText(_translate("Reservation", "Room:"))
+        self.groupBox_2.setTitle(_translate("Reservation", "Date of Reservation"))
+        self.label.setText(_translate("Reservation", "From:"))
+        self.label_2.setText(_translate("Reservation", "To:"))
+        self.checkBox.setText(_translate("Reservation", "Discount?"))
+        self.spinBox.setPrefix(_translate("Reservation", "%"))
+        self.pushButton.setText(_translate("Reservation", "Reserve"))
+        self.label_5.setText(_translate("Reservation", "Reservation ID:"))
 
-
+import UI.rc_rc

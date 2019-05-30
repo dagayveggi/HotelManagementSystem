@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QWidget" name="MainWindow">
+ <class>Room</class>
+ <widget class="QWidget" name="Room">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +12,10 @@
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="rc.qrc">
+    <normaloff>:/rm/48px-Go-home-2.svg.png</normaloff>:/rm/48px-Go-home-2.svg.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_6">
    <item row="0" column="0">
@@ -70,6 +74,10 @@
              <property name="text">
               <string>Add</string>
              </property>
+             <property name="icon">
+              <iconset resource="rc.qrc">
+               <normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</iconset>
+             </property>
             </widget>
            </item>
            <item row="2" column="0">
@@ -77,12 +85,20 @@
              <property name="text">
               <string>Edit</string>
              </property>
+             <property name="icon">
+              <iconset resource="rc.qrc">
+               <normaloff>:/commands/48px-Edit-find-replace.svg.png</normaloff>:/commands/48px-Edit-find-replace.svg.png</iconset>
+             </property>
             </widget>
            </item>
            <item row="3" column="0">
             <widget class="QPushButton" name="pushButton">
              <property name="text">
               <string>Delete</string>
+             </property>
+             <property name="icon">
+              <iconset resource="rc.qrc">
+               <normaloff>:/commands/48px-Edit-delete.svg.png</normaloff>:/commands/48px-Edit-delete.svg.png</iconset>
              </property>
             </widget>
            </item>
@@ -109,7 +125,7 @@
         <item row="7" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Date of Birth:</string>
+           <string>Room Type:</string>
           </property>
          </widget>
         </item>
@@ -257,6 +273,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="rc.qrc"/>
+ </resources>
  <connections/>
 </ui>
