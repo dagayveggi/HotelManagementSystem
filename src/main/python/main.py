@@ -9,7 +9,7 @@ from UI.customer import Ui_Customer
 from UI.service import Ui_Service
 from UI.mainwin import Ui_MainWindow
 from Ops.service_ops import *
-from Ops.threading import tableWorker
+from Ops.threading import tableWorker, update_table
 from random import randrange
 
 import sys
@@ -47,21 +47,10 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(self.update_table("Room", hlist, ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("Room", hlist, ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
-
-    def update_table(self, table, headers, ui, db, model):
-        db.open()
-        model.setTable(table)
-        num = 0
-        for i in headers:
-            model.setHeaderData(num, QtCore.Qt.Horizontal, i)
-            num+=1
-        model.select()
-        ui.tableView.setModel(model)
-        db.close()
 
     def new_res_dialog(self, db, model):
         ui = Ui_Reservation()
@@ -84,7 +73,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(self.update_table("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
@@ -98,13 +87,13 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(self.update_table("Service", ['Service ID','Name','Price'], ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
-        ui.pushButton.clicked.connect(lambda: add_srv(ui, new_srv, db, thrd, model, self.update_table))
-        ui.pushButton_2.clicked.connect(lambda: edit_srv(ui, new_srv, db, thrd, model, self.update_table))
-        ui.pushButton_3.clicked.connect(lambda: del_srv(ui, new_srv, db, thrd, model, self.update_table))
+        ui.pushButton.clicked.connect(lambda: add_srv(ui, new_srv, db, thrd, model))
+        ui.pushButton_2.clicked.connect(lambda: edit_srv(ui, new_srv, db, thrd, model))
+        ui.pushButton_3.clicked.connect(lambda: del_srv(ui, new_srv, db, thrd, model))
         #When an item in the tableView is selected update lineEdit and lineEdit_2 for better workflow
         #You can just repeat the connect() method and it wouldn't override the previous one
         ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()))

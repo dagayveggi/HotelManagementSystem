@@ -1,8 +1,8 @@
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtSql import QSqlQuery, QSqlError
-from Ops.threading import tableWorker
+from Ops.threading import tableWorker, update_table
 
-def add_srv(ui, window, db, thrd, model, updater):
+def add_srv(ui, window, db, thrd, model):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -20,10 +20,10 @@ def add_srv(ui, window, db, thrd, model, updater):
     ui.lineEdit.clear()
     ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
+    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
 
-def del_srv(ui, window, db, thrd, model, updater):
+def del_srv(ui, window, db, thrd, model):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -39,10 +39,10 @@ def del_srv(ui, window, db, thrd, model, updater):
     ui.lineEdit.clear()
     ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
+    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
 
-def edit_srv(ui, window, db, thrd, model, updater):
+def edit_srv(ui, window, db, thrd, model):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -61,5 +61,5 @@ def edit_srv(ui, window, db, thrd, model, updater):
     ui.lineEdit.clear()
     ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
+    worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
