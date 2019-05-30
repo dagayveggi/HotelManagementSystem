@@ -81,6 +81,12 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui = Ui_Customer()
         newCust = QDialog()
         ui.setupUi(newCust)
+
+        #Setup Threading
+        thrd = QThreadPool().globalInstance()
+        worker = tableWorker(self.updateTable("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui, db, model)) #We pass a function for the worker to execute
+        thrd.tryStart(worker)
+
         newCust.setWindowTitle('Create, edit, or delete a Customer')
         newCust.exec()
     
