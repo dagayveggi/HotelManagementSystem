@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>377</height>
+    <height>403</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="rc.qrc">
+    <normaloff>:/ctmr/48px-System-users-3.svg.png</normaloff>:/ctmr/48px-System-users-3.svg.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -99,7 +103,7 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="9" column="1">
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -112,7 +116,39 @@
          </property>
         </spacer>
        </item>
-       <item row="11" column="1">
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Sex:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QComboBox" name="comboBox">
+         <property name="insertPolicy">
+          <enum>QComboBox::NoInsert</enum>
+         </property>
+         <item>
+          <property name="text">
+           <string>Male</string>
+          </property>
+          <property name="icon">
+           <iconset resource="rc.qrc">
+            <normaloff>:/ctmr/48px-Emblem-person-blue.svg.png</normaloff>:/ctmr/48px-Emblem-person-blue.svg.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Female</string>
+          </property>
+          <property name="icon">
+           <iconset resource="rc.qrc">
+            <normaloff>:/ctmr/48px-User_icon_3.svg.png</normaloff>:/ctmr/48px-User_icon_3.svg.png</iconset>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="12" column="1">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
           <string>Commands</string>
@@ -123,6 +159,10 @@
             <property name="text">
              <string>Add</string>
             </property>
+            <property name="icon">
+             <iconset resource="rc.qrc">
+              <normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</iconset>
+            </property>
            </widget>
           </item>
           <item row="2" column="0">
@@ -130,12 +170,20 @@
             <property name="text">
              <string>Edit</string>
             </property>
+            <property name="icon">
+             <iconset resource="rc.qrc">
+              <normaloff>:/commands/48px-Edit-find-replace.svg.png</normaloff>:/commands/48px-Edit-find-replace.svg.png</iconset>
+            </property>
            </widget>
           </item>
           <item row="3" column="0">
            <widget class="QPushButton" name="pushButton">
             <property name="text">
              <string>Delete</string>
+            </property>
+            <property name="icon">
+             <iconset resource="rc.qrc">
+              <normaloff>:/commands/48px-Edit-delete.svg.png</normaloff>:/commands/48px-Edit-delete.svg.png</iconset>
             </property>
            </widget>
           </item>
@@ -159,6 +207,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="rc.qrc"/>
+ </resources>
  <connections/>
 </ui>

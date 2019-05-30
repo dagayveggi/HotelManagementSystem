@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets, QtChart
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,17 +26,8 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName("groupBox")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.groupBox)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.groupBox_2)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        self.gridLayout_4 = QtWidgets.QGridLayout(self.groupBox_3)
-        self.gridLayout_4.setObjectName("gridLayout_4")
         self.tableView = QtWidgets.QTableView(self.groupBox)
         self.tableView.setObjectName("tableView")
-        self.tableView.setEditTriggers(self.tableView.NoEditTriggers)
-        self.chartView = QtChart.QChartView(self.groupBox_2)
-        self.chartView_2 = QtChart.QChartView(self.groupBox_3)
-        self.gridLayout_4.addWidget(self.chartView_2, 0, 0, 1, 1)
-        self.gridLayout_3.addWidget(self.chartView, 0, 0, 1, 1)
         self.gridLayout_2.addWidget(self.tableView, 0, 0, 1, 1)
         self.gridLayout.addWidget(self.groupBox, 2, 0, 1, 2)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -63,8 +54,21 @@ class Ui_MainWindow(object):
         icon2.addPixmap(QtGui.QPixmap(":/srv/48px-Edit-clear.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.newService.setIcon(icon2)
         self.newService.setObjectName("newService")
+        self.newCustomer = QtWidgets.QAction(MainWindow)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/ctmr/48px-System-users-3.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.newCustomer.setIcon(icon3)
+        self.newCustomer.setObjectName("newCustomer")
+        self.cancelRes = QtWidgets.QAction(MainWindow)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/Res/48px-System-log-out.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.cancelRes.setIcon(icon4)
+        self.cancelRes.setObjectName("cancelRes")
         self.toolBar.addAction(self.newRes)
+        self.toolBar.addAction(self.cancelRes)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.newRoom)
+        self.toolBar.addAction(self.newCustomer)
         self.toolBar.addAction(self.newService)
 
         self.retranslateUi(MainWindow)
@@ -78,21 +82,19 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(_translate("MainWindow", "All Current Reservations"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.newRes.setText(_translate("MainWindow", "newRes"))
-        self.newRes.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create a new Reservation</p></body></html>"))
-        self.newRes.setShortcut(_translate("MainWindow", "Ctrl+N"))
+        self.newRes.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create, edit, or delete a Reservation</p></body></html>"))
+        self.newRes.setShortcut(_translate("MainWindow", "Ctrl+Shift+N"))
         self.newRoom.setText(_translate("MainWindow", "newRoom"))
-        self.newRoom.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create a new Room</p></body></html>"))
-        self.newRoom.setShortcut(_translate("MainWindow", "Ctrl+R"))
+        self.newRoom.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create, edit, or delete a Room</p></body></html>"))
+        self.newRoom.setShortcut(_translate("MainWindow", "Ctrl+Shift+R"))
         self.newService.setText(_translate("MainWindow", "newService"))
-        self.newService.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create a new Service</p></body></html>"))
-        self.newService.setShortcut(_translate("MainWindow", "Ctrl+S"))
+        self.newService.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create, edit, or delete a Service</p></body></html>"))
+        self.newService.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
+        self.newCustomer.setText(_translate("MainWindow", "newCustomer"))
+        self.newCustomer.setToolTip(_translate("MainWindow", "<html><head/><body><p>Create, edit, or delete a Customer</p></body></html>"))
+        self.newCustomer.setShortcut(_translate("MainWindow", "Ctrl+Shift+C"))
+        self.cancelRes.setText(_translate("MainWindow", "cancelRes"))
+        self.cancelRes.setToolTip(_translate("MainWindow", "<html><head/><body><p>Cancel a current Reservation</p></body></html>"))
+        self.cancelRes.setShortcut(_translate("MainWindow", "Ctrl+Shift+M"))
 
-class tableWorker(QtCore.QRunnable):
-    def __init__(self, fn):
-        super(tableWorker, self).__init__()
-        self.fn = fn
-    
-    def run(self):
-        self.fn
-
-import UI.rc_rc
+import rc_rc

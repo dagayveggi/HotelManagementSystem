@@ -1,6 +1,17 @@
 <RCC>
   <qresource prefix="Res">
+    <file>48px-System-log-out.svg.png</file>
     <file>48px-Appointment-new.svg.png</file>
+  </qresource>
+  <qresource prefix="commands">
+    <file>48px-Ambox_emblem_plus.svg.png</file>
+    <file>48px-Edit-delete.svg.png</file>
+    <file>48px-Edit-find-replace.svg.png</file>
+  </qresource>
+  <qresource prefix="ctmr">
+    <file>48px-Emblem-person-blue.svg.png</file>
+    <file>48px-User_icon_3.svg.png</file>
+    <file>48px-System-users-3.svg.png</file>
   </qresource>
   <qresource prefix="srv">
     <file>48px-Edit-clear.svg.png</file>
