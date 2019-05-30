@@ -8,7 +8,7 @@ from UI.room import Ui_Room
 from UI.customer import Ui_Customer
 from UI.service import Ui_Service
 from UI.mainwin import Ui_MainWindow, tableWorker
-from Ops.service_ops import addSrv, delSrv
+from Ops.service_ops import *
 from random import randrange
 
 import sys
@@ -72,14 +72,28 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         newRm.exec()
     
     def newServiceDialog(self):
+        #setup DB
         db = QSqlDatabase('QSQLITE')
         db.setDatabaseName(self.get_resource('hotel.db'))
+        model = QSqlTableModel(self.app, db)
+        
+        #Setup UI
         ui = Ui_Service()
         newSrv = QDialog()
         ui.setupUi(newSrv)
-        ui.pushButton.clicked.connect(lambda: addSrv(None, ui, newSrv, db))
-        ui.pushButton_3.clicked.connect(lambda: delSrv(None, ui, newSrv, db))
+        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db))
+        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db))
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
+
+        #Setup Threading
+        thrd = QThread()
+        worker = tableWorker(updateSrvTable(ui, db, model)) #We pass a function for the worker to execute
+        worker.moveToThread(thrd)
+        thrd.start()
+        thrd.started.connect(worker._run_update)
+        worker.finished.connect(thrd.quit)
+
+        #execute
         newSrv.setWindowTitle('Create a new Service')
         newSrv.exec()
 
