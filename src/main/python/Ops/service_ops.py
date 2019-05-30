@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtSql import QSqlQuery, QSqlError
 from Ops.threading import tableWorker
 
-def addSrv(ui, window, db, thrd, model):
+def addSrv(ui, window, db, thrd, model, updater):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -17,10 +17,10 @@ def addSrv(ui, window, db, thrd, model):
                                         'New Service has been successfully created', 
                                         QtWidgets.QMessageBox.Ok)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(updateSrvTable(ui, db, model))
+    worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
 
-def delSrv(ui, window, db, thrd, model):
+def delSrv(ui, window, db, thrd, model, updater):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -33,10 +33,10 @@ def delSrv(ui, window, db, thrd, model):
                                         'Service has been successfully deleted', 
                                         QtWidgets.QMessageBox.Ok)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(updateSrvTable(ui, db, model))
+    worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
 
-def editSrv(ui, window, db, thrd, model):
+def editSrv(ui, window, db, thrd, model, updater):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -52,15 +52,5 @@ def editSrv(ui, window, db, thrd, model):
                                         'Service has been successfully edited', 
                                         QtWidgets.QMessageBox.Ok)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
-    worker = tableWorker(updateSrvTable(ui, db, model))
+    worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
-
-def updateSrvTable(ui, db, model):
-        db.open()
-        model.setTable("Service")
-        model.setHeaderData(0, QtCore.Qt.Horizontal,'Service ID')
-        model.setHeaderData(1, QtCore.Qt.Horizontal,'Name')
-        model.setHeaderData(2, QtCore.Qt.Horizontal,'Price')
-        model.select()
-        ui.tableView.setModel(model)
-        db.close()

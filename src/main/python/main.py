@@ -46,22 +46,19 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         #Threading
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
-        worker = tableWorker(self.updateTable(ui, db, model)) #We pass a function for the worker to execute
+        hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
+        worker = tableWorker(self.updateTable("Room", hlist, ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
 
-    def updateTable(self, ui, db, model):
+    def updateTable(self, table, headers, ui, db, model):
         db.open()
-        model.setTable("Room")
-        model.setHeaderData(0, QtCore.Qt.Horizontal,'Reserv. ID')
-        model.setHeaderData(1, QtCore.Qt.Horizontal,'Customer ID')
-        model.setHeaderData(2, QtCore.Qt.Horizontal,'Room #')
-        model.setHeaderData(3, QtCore.Qt.Horizontal,'From')
-        model.setHeaderData(4, QtCore.Qt.Horizontal,'To')
-        model.setHeaderData(5, QtCore.Qt.Horizontal,'Discount')
-        model.setHeaderData(6, QtCore.Qt.Horizontal,'Extension')
-        model.setHeaderData(7, QtCore.Qt.Horizontal,'Net Total')
+        model.setTable(table)
+        num = 0
+        for i in headers:
+            model.setHeaderData(num, QtCore.Qt.Horizontal, i)
+            num+=1
         model.select()
         ui.tableView.setModel(model)
         db.close()
@@ -100,13 +97,13 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(updateSrvTable(ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(self.updateTable("Service", ['Service ID','Name','Price'], ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
-        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model))
-        ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db, thrd, model))
+        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model, self.updateTable))
+        ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db, thrd, model, self.updateTable))
+        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db, thrd, model, self.updateTable))
         #When an item in the tableView is selected update lineEdit_2 for better workflow
         ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()))
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
