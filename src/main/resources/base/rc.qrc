@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="Res">
+    <file>48px-Appointment.svg.png</file>
+    <file>48px-Appointment-archive.png</file>
     <file>48px-System-log-out.svg.png</file>
     <file>48px-Appointment-new.svg.png</file>
   </qresource>

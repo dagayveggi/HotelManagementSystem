@@ -44,6 +44,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db, model))
 
         #Threading
+        #! tableWorker updates mainwin's tableView every time it's called
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
