@@ -38,21 +38,21 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         model = QSqlTableModel(self.app, db)
 
         #Setup Signals
-        ui.newRes.triggered.connect(lambda: self.newResDialog(db, model))
-        ui.newRoom.triggered.connect(lambda: self.newRoomDialog(db, model))
+        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db, model))
+        ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db, model))
         ui.newService.triggered.connect(lambda: self.newServiceDialog(db, model))
-        ui.newCustomer.triggered.connect(lambda: self.newCustomerDialog(db, model))
+        ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db, model))
 
         #Threading
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(self.updateTable("Room", hlist, ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(self.update_table("Room", hlist, ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
 
-    def updateTable(self, table, headers, ui, db, model):
+    def update_table(self, table, headers, ui, db, model):
         db.open()
         model.setTable(table)
         num = 0
@@ -63,55 +63,58 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.tableView.setModel(model)
         db.close()
 
-    def newResDialog(self, db, model):
+    def new_res_dialog(self, db, model):
         ui = Ui_Reservation()
         newRes = QDialog()
         ui.setupUi(newRes)
         newRes.setWindowTitle('Create, edit, or delete a Reservation')
         newRes.exec()
     
-    def newRoomDialog(self, db, model):
+    def new_room_dialog(self, db, model):
         ui = Ui_Room()
         newRm = QDialog()
         ui.setupUi(newRm)
         newRm.setWindowTitle('Create, edit, or delete a Room')
         newRm.exec()
 
-    def newCustomerDialog(self, db, model):
+    def new_customer_dialog(self, db, model):
         ui = Ui_Customer()
-        newCust = QDialog()
-        ui.setupUi(newCust)
+        new_cust = QDialog()
+        ui.setupUi(new_cust)
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(self.updateTable("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(self.update_table("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
-        newCust.setWindowTitle('Create, edit, or delete a Customer')
-        newCust.exec()
+        new_cust.setWindowTitle('Create, edit, or delete a Customer')
+        new_cust.exec()
     
     def newServiceDialog(self, db, model):
         #Setup UI
         ui = Ui_Service()
-        newSrv = QDialog()
-        ui.setupUi(newSrv)
+        new_srv = QDialog()
+        ui.setupUi(new_srv)
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(self.updateTable("Service", ['Service ID','Name','Price'], ui, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(self.update_table("Service", ['Service ID','Name','Price'], ui, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
-        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model, self.updateTable))
-        ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db, thrd, model, self.updateTable))
-        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db, thrd, model, self.updateTable))
+        ui.pushButton.clicked.connect(lambda: add_srv(ui, new_srv, db, thrd, model, self.update_table))
+        ui.pushButton_2.clicked.connect(lambda: edit_srv(ui, new_srv, db, thrd, model, self.update_table))
+        ui.pushButton_3.clicked.connect(lambda: del_srv(ui, new_srv, db, thrd, model, self.update_table))
         #When an item in the tableView is selected update lineEdit and lineEdit_2 for better workflow
-        ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()) & ui.lineEdit.setText(index.siblingAtColumn(1).data()))
+        #You can just repeat the connect() method and it wouldn't override the previous one
+        ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()))
+        ui.tableView.clicked.connect(lambda index: ui.lineEdit.setText(index.siblingAtColumn(1).data()))
+        ui.tableView.clicked.connect(lambda index: ui.doubleSpinBox.setValue(index.siblingAtColumn(2).data()))
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #execute
-        newSrv.setWindowTitle('Create, edit, or delete a Service')
-        newSrv.exec()
+        new_srv.setWindowTitle('Create, edit, or delete a Service')
+        new_srv.exec()
 
 if __name__ == '__main__':
     appctxt = AppContext()                      # 4. Instantiate the subclass

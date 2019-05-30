@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtSql import QSqlQuery, QSqlError
 from Ops.threading import tableWorker
 
-def addSrv(ui, window, db, thrd, model, updater):
+def add_srv(ui, window, db, thrd, model, updater):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -23,7 +23,7 @@ def addSrv(ui, window, db, thrd, model, updater):
     worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
 
-def delSrv(ui, window, db, thrd, model, updater):
+def del_srv(ui, window, db, thrd, model, updater):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
@@ -42,7 +42,7 @@ def delSrv(ui, window, db, thrd, model, updater):
     worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
 
-def editSrv(ui, window, db, thrd, model, updater):
+def edit_srv(ui, window, db, thrd, model, updater):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
