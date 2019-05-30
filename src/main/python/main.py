@@ -7,8 +7,9 @@ from UI.newReservation import Ui_Reservation
 from UI.room import Ui_Room
 from UI.customer import Ui_Customer
 from UI.service import Ui_Service
-from UI.mainwin import Ui_MainWindow, tableWorker
+from UI.mainwin import Ui_MainWindow
 from Ops.service_ops import *
+from Ops.threading import tableWorker
 from random import randrange
 
 import sys

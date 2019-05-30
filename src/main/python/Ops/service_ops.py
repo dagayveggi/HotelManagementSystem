@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtSql import QSqlQuery, QSqlError
-from UI.mainwin import tableWorker
+from Ops.threading import tableWorker
 
 def addSrv(ui, window, db, thrd, model):
     db.open()

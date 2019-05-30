@@ -97,4 +97,4 @@ class Ui_MainWindow(object):
         self.cancelRes.setToolTip(_translate("MainWindow", "<html><head/><body><p>Cancel a current Reservation</p></body></html>"))
         self.cancelRes.setShortcut(_translate("MainWindow", "Ctrl+Shift+M"))
 
-import rc_rc
+import UI.rc_rc

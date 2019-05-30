@@ -123,4 +123,4 @@ class Ui_Customer(object):
         self.pushButton_2.setText(_translate("MainWindow", "Edit"))
         self.pushButton.setText(_translate("MainWindow", "Delete"))
 
-import rc_rc
+import UI.rc_rc
