@@ -44,7 +44,6 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
 
         #Threading
-        #! tableWorker updates mainwin's tableView every time it's called
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
@@ -55,24 +54,30 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
     def new_res_dialog(self, db):
         ui = Ui_Reservation()
-        newRes = QDialog()
-        ui.setupUi(newRes)
-        newRes.setWindowTitle('Create, edit, or delete a Reservation')
-        newRes.exec()
+        new_res = QDialog()
+        ui.setupUi(new_res)
+
+        model = QSqlTableModel(new_res, db)
+
+        new_res.setWindowTitle('Create, edit, or delete a Reservation')
+        new_res.exec()
     
     def new_room_dialog(self, db):
         ui = Ui_Room()
-        newRm = QDialog()
-        ui.setupUi(newRm)
-        newRm.setWindowTitle('Create, edit, or delete a Room')
-        newRm.exec()
+        new_rm = QDialog()
+        ui.setupUi(new_rm)
+
+        model = QSqlTableModel(new_rm, db)
+        
+        new_rm.setWindowTitle('Create, edit, or delete a Room')
+        new_rm.exec()
 
     def new_customer_dialog(self, db):
         ui = Ui_Customer()
         new_cust = QDialog()
         ui.setupUi(new_cust)
 
-        model = QSqlTableModel(self.app, db)
+        model = QSqlTableModel(new_cust, db)
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
@@ -88,7 +93,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_srv = QDialog()
         ui.setupUi(new_srv)
 
-        model = QSqlTableModel(self.app, db)
+        model = QSqlTableModel(new_srv, db)
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()

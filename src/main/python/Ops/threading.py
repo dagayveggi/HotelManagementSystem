@@ -17,4 +17,5 @@ def update_table(table, headers, widget, db, model):
             num+=1
         model.select()
         widget.setModel(model)
+        widget.horizontalHeader().setStretchLastSection(True)
         db.close()
