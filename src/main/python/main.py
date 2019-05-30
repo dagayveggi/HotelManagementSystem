@@ -81,9 +81,6 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui = Ui_Service()
         newSrv = QDialog()
         ui.setupUi(newSrv)
-        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db))
-        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db))
-        ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #Setup Threading
         thrd = QThread()
@@ -92,6 +89,13 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd.start()
         thrd.started.connect(worker._run_update)
         worker.finished.connect(thrd.quit)
+
+        #Setup Signals and other UI elements
+        #TODO Update table after each command, maybe through signals or by passing the thrd to the funcs
+        ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db))
+        ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db))
+        ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db))
+        ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #execute
         newSrv.setWindowTitle('Create a new Service')

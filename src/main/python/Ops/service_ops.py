@@ -15,7 +15,6 @@ def addSrv(ui, window, db):
         QtWidgets.QMessageBox.information(window, 'New Service created', 
                                             'New Service has been successfully created', 
                                             QtWidgets.QMessageBox.Ok)
-        window.close()
     except QSqlError.TransactionError as e:
         QtWidgets.QMessageBox.critical(window, 'Transaction error', 
                                             str(e), 
@@ -41,7 +40,6 @@ def delSrv(ui, window, db):
         QtWidgets.QMessageBox.information(window, 'Service deleted', 
                                             'Service has been successfully deleted', 
                                             QtWidgets.QMessageBox.Ok)
-        window.close()
     except QSqlError.TransactionError as e:
         QtWidgets.QMessageBox.critical(window, 'Transaction error', 
                                             str(e), 
@@ -70,7 +68,6 @@ def editSrv(ui, window, db):
         QtWidgets.QMessageBox.information(window, 'Service edited', 
                                             'Service has been successfully edited', 
                                             QtWidgets.QMessageBox.Ok)
-        window.close()
     except QSqlError.TransactionError as e:
         QtWidgets.QMessageBox.critical(window, 'Transaction error', 
                                             str(e), 
