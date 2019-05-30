@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <widget class="QWidget" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,195 +17,186 @@
    <iconset resource="rc.qrc">
     <normaloff>:/ctmr/48px-System-users-3.svg.png</normaloff>:/ctmr/48px-System-users-3.svg.png</iconset>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QGroupBox" name="groupBox_3">
-      <property name="title">
-       <string>Reservation History</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QTableView" name="tableView"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="title">
-       <string>Current Reservations</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="0" column="0">
-        <widget class="QTableView" name="tableView_2"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Information</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Name:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="spinBox">
-         <property name="prefix">
-          <string>0</string>
-         </property>
-         <property name="maximum">
-          <number>999999999</number>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Date of Birth:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QDateEdit" name="dateEdit">
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Phone Number:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Sex:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QComboBox" name="comboBox">
-         <property name="insertPolicy">
-          <enum>QComboBox::NoInsert</enum>
-         </property>
-         <item>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Information</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>Male</string>
+           <string>Name:</string>
           </property>
-          <property name="icon">
-           <iconset resource="rc.qrc">
-            <normaloff>:/ctmr/48px-Emblem-person-blue.svg.png</normaloff>:/ctmr/48px-Emblem-person-blue.svg.png</iconset>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QSpinBox" name="spinBox">
+          <property name="prefix">
+           <string>0</string>
           </property>
-         </item>
-         <item>
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Female</string>
+           <string>Date of Birth:</string>
           </property>
-          <property name="icon">
-           <iconset resource="rc.qrc">
-            <normaloff>:/ctmr/48px-User_icon_3.svg.png</normaloff>:/ctmr/48px-User_icon_3.svg.png</iconset>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QDateEdit" name="dateEdit">
+          <property name="calendarPopup">
+           <bool>true</bool>
           </property>
-         </item>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>Commands</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="2" column="1">
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="text">
-             <string>Add</string>
-            </property>
-            <property name="icon">
-             <iconset resource="rc.qrc">
-              <normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</iconset>
-            </property>
-           </widget>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Phone Number:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Sex:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QComboBox" name="comboBox">
+          <property name="insertPolicy">
+           <enum>QComboBox::NoInsert</enum>
+          </property>
+          <item>
+           <property name="text">
+            <string>Male</string>
+           </property>
+           <property name="icon">
+            <iconset resource="rc.qrc">
+             <normaloff>:/ctmr/48px-Emblem-person-blue.svg.png</normaloff>:/ctmr/48px-Emblem-person-blue.svg.png</iconset>
+           </property>
           </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>Edit</string>
-            </property>
-            <property name="icon">
-             <iconset resource="rc.qrc">
-              <normaloff>:/commands/48px-Edit-find-replace.svg.png</normaloff>:/commands/48px-Edit-find-replace.svg.png</iconset>
-            </property>
-           </widget>
+          <item>
+           <property name="text">
+            <string>Female</string>
+           </property>
+           <property name="icon">
+            <iconset resource="rc.qrc">
+             <normaloff>:/ctmr/48px-User_icon_3.svg.png</normaloff>:/ctmr/48px-User_icon_3.svg.png</iconset>
+           </property>
           </item>
-          <item row="3" column="0">
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>Delete</string>
-            </property>
-            <property name="icon">
-             <iconset resource="rc.qrc">
-              <normaloff>:/commands/48px-Edit-delete.svg.png</normaloff>:/commands/48px-Edit-delete.svg.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+         </widget>
+        </item>
+        <item row="12" column="1">
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Commands</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="2" column="1">
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>Add</string>
+             </property>
+             <property name="icon">
+              <iconset resource="rc.qrc">
+               <normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</normaloff>:/commands/48px-Ambox_emblem_plus.svg.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>Edit</string>
+             </property>
+             <property name="icon">
+              <iconset resource="rc.qrc">
+               <normaloff>:/commands/48px-Edit-find-replace.svg.png</normaloff>:/commands/48px-Edit-find-replace.svg.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Delete</string>
+             </property>
+             <property name="icon">
+              <iconset resource="rc.qrc">
+               <normaloff>:/commands/48px-Edit-delete.svg.png</normaloff>:/commands/48px-Edit-delete.svg.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="title">
+        <string>Current Reservations</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QTableView" name="tableView_2"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="title">
+        <string>Reservation History</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QTableView" name="tableView"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources>
   <include location="rc.qrc"/>
