@@ -62,6 +62,7 @@ class Ui_Service(object):
         self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.pushButton_3)
         self.gridLayout.addWidget(self.groupBox, 0, 0, 1, 1)
         self.tableView = QtWidgets.QTableView(Service)
+        self.tableView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableView.setObjectName("tableView")
         self.gridLayout.addWidget(self.tableView, 1, 0, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)

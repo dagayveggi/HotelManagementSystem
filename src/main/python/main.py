@@ -107,6 +107,8 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model))
         ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db, thrd, model))
         ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db, thrd, model))
+        #When an item in the tableView is selected update lineEdit_2 for better workflow
+        ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()))
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #execute
