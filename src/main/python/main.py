@@ -22,7 +22,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.setupUi(window)
         window.setWindowTitle("HotelManagementSystem v" + version)
 
-        #Setup Charts
+        #Setup Charts for isolated UI editing
         ui.chartView = QtChart.QChartView(window)
         ui.chartView_2 = QtChart.QChartView(window)
         ui.gridLayout_3 = QtWidgets.QGridLayout(ui.groupBox_2)
