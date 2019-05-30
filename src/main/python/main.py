@@ -38,10 +38,10 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         model = QSqlTableModel(self.app, db)
 
         #Setup Signals
-        ui.newRes.triggered.connect(self.newResDialog)
-        ui.newRoom.triggered.connect(self.newRoomDialog)
-        ui.newService.triggered.connect(self.newServiceDialog)
-        ui.newCustomer.triggered.connect(self.newCustomerDialog)
+        ui.newRes.triggered.connect(lambda: self.newResDialog(db, model))
+        ui.newRoom.triggered.connect(lambda: self.newRoomDialog(db, model))
+        ui.newService.triggered.connect(lambda: self.newServiceDialog(db, model))
+        ui.newCustomer.triggered.connect(lambda: self.newCustomerDialog(db, model))
 
         #Threading
         thrd = QThreadPool().globalInstance()
@@ -63,33 +63,28 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.tableView.setModel(model)
         db.close()
 
-    def newResDialog(self):
+    def newResDialog(self, db, model):
         ui = Ui_Reservation()
         newRes = QDialog()
         ui.setupUi(newRes)
         newRes.setWindowTitle('Create, edit, or delete a Reservation')
         newRes.exec()
     
-    def newRoomDialog(self):
+    def newRoomDialog(self, db, model):
         ui = Ui_Room()
         newRm = QDialog()
         ui.setupUi(newRm)
         newRm.setWindowTitle('Create, edit, or delete a Room')
         newRm.exec()
 
-    def newCustomerDialog(self):
+    def newCustomerDialog(self, db, model):
         ui = Ui_Customer()
         newCust = QDialog()
         ui.setupUi(newCust)
         newCust.setWindowTitle('Create, edit, or delete a Customer')
         newCust.exec()
     
-    def newServiceDialog(self):
-        #setup DB
-        db = QSqlDatabase('QSQLITE')
-        db.setDatabaseName(self.get_resource('hotel.db'))
-        model = QSqlTableModel(self.app, db)
-        
+    def newServiceDialog(self, db, model):
         #Setup UI
         ui = Ui_Service()
         newSrv = QDialog()
@@ -104,8 +99,8 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.pushButton.clicked.connect(lambda: addSrv(ui, newSrv, db, thrd, model, self.updateTable))
         ui.pushButton_2.clicked.connect(lambda: editSrv(ui, newSrv, db, thrd, model, self.updateTable))
         ui.pushButton_3.clicked.connect(lambda: delSrv(ui, newSrv, db, thrd, model, self.updateTable))
-        #When an item in the tableView is selected update lineEdit_2 for better workflow
-        ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()))
+        #When an item in the tableView is selected update lineEdit and lineEdit_2 for better workflow
+        ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()) & ui.lineEdit.setText(index.siblingAtColumn(1).data()))
         ui.lineEdit_2.setText("SRVC" + str(randrange(100, 999, 10)))
 
         #execute

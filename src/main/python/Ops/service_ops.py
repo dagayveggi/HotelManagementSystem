@@ -16,6 +16,9 @@ def addSrv(ui, window, db, thrd, model, updater):
     QtWidgets.QMessageBox.information(window, 'New Service created', 
                                         'New Service has been successfully created', 
                                         QtWidgets.QMessageBox.Ok)
+    ui.lineEdit_2.clear()
+    ui.lineEdit.clear()
+    ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
     worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
@@ -32,6 +35,9 @@ def delSrv(ui, window, db, thrd, model, updater):
     QtWidgets.QMessageBox.information(window, 'Service deleted', 
                                         'Service has been successfully deleted', 
                                         QtWidgets.QMessageBox.Ok)
+    ui.lineEdit_2.clear()
+    ui.lineEdit.clear()
+    ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
     worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
@@ -51,6 +57,9 @@ def editSrv(ui, window, db, thrd, model, updater):
     QtWidgets.QMessageBox.information(window, 'Service edited', 
                                         'Service has been successfully edited', 
                                         QtWidgets.QMessageBox.Ok)
+    ui.lineEdit_2.clear()
+    ui.lineEdit.clear()
+    ui.doubleSpinBox.setValue(0)
     #Call the updateSrvTable func through a worker and start it using the global threadpool
     worker = tableWorker(updater("Service", ['Service ID','Name','Price'], ui, db, model))
     thrd.tryStart(worker)
