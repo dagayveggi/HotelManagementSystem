@@ -2,12 +2,13 @@ from fbs_runtime.application_context import ApplicationContext
 from PyQt5.QtWidgets import QMainWindow, QDialog
 from PyQt5.QtCore import QThread, QThreadPool
 from PyQt5 import QtCore, QtChart
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
+from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery, QSqlQueryModel
 from UI.newReservation import Ui_Reservation
 from UI.room import Ui_Room
 from UI.customer import Ui_Customer
 from UI.service import Ui_Service
 from UI.mainwin import Ui_MainWindow
+from Ops.reservation_ops import *
 from Ops.service_ops import *
 from Ops.threading import tableWorker, update_table
 from random import randrange
@@ -58,6 +59,11 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.setupUi(new_res)
 
         model = QSqlTableModel(new_res, db)
+
+        thrd = QThreadPool().globalInstance()
+        worker = tableWorker(collect_data(ui, db))
+
+        ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, thrd, model, (False, True)[ui.checkBox.isChecked()]))
 
         new_res.setWindowTitle('Create, edit, or delete a Reservation')
         new_res.exec()
