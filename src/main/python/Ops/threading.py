@@ -16,6 +16,8 @@ def update_table(table, headers, widget, db, model):
             model.setHeaderData(num, Qt.Horizontal, i)
             num+=1
         model.select()
+        while model.canFetchMore():
+            model.fetchMore()
         widget.setModel(model)
         widget.horizontalHeader().setStretchLastSection(True)
         db.close()
