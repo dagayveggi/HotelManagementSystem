@@ -7,7 +7,7 @@ A Hotel Management System with the MVP being: Rooms, (Add, Edit, Reservation His
 ### Technologies Used:
 
 - Python 3.7
-- PyQt5: For the GUI and (possibly database connection)
+- PyQt5: For the GUI and database connection management throught QtSql submodule
 - SQLite3: As the database
 - FBS: For deploying and packaging of the project
 
