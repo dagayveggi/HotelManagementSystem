@@ -1,5 +1,5 @@
 from fbs_runtime.application_context import ApplicationContext
-from PyQt5.QtWidgets import QMainWindow, QDialog
+from PyQt5.QtWidgets import QMainWindow, QDialog, QMessageBox
 from PyQt5.QtCore import QThread, QThreadPool
 from PyQt5 import QtCore, QtChart
 from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery, QSqlQueryModel
@@ -43,7 +43,9 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db))
         ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
-
+        ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog((window, db, ui.current_res.currentIndex().siblingAtColumn(0).data())))
+        ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog((window, db, ui.current_res.currentIndex().siblingAtColumn(0).data())))
+        
         #Threading
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
@@ -122,6 +124,23 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         #execute
         new_srv.setWindowTitle('Create, edit, or delete a Service')
         new_srv.exec()
+    
+    def new_cancel_dialog(self, window, db, resID):
+        new_cancel = QMessageBox.critical(window, 'Cancel Reservation',
+                                            'Are you sure you want to cancel the select Reservation',
+                                            QMessageBox.Yes | QMessageBox.No)
+        if new_cancel.exec_() == QMessageBox.Yes:
+            db.open()
+            query = QSqlQuery(db)
+            db.transaction()
+            query.prepare('DELETE FROM CurrentReservation WHERE ResID = ?')
+            query.addBindValue(resID)
+            query.exec_()
+            db.commit()
+            db.close
+        else:
+            new_cancel.close()
+
 
 if __name__ == '__main__':
     appctxt = AppContext()                      # 4. Instantiate the subclass
