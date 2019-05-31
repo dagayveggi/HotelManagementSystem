@@ -130,7 +130,8 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_cancel.setWindowTitle('Cancel Reservation')
         new_cancel.setText('Are you sure you want to cancel the select Reservation')
         new_cancel.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        
+
+        #TODO Send deleted Reservation to the archive and add canceled column there
         if new_cancel.exec_() == QMessageBox.Yes:
             db.open()
             query = QSqlQuery(db)
