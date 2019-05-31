@@ -36,7 +36,7 @@ def collect_data(ui, db): #! Needs revision and reformatting
             ui.comboBox.addItem(icon5, cust_model.index(i, 0).data(), cust_model.index(i, 1).data())
         i+=1"""
 
-def new_reservation(ui, window, db, discount):
+def new_reservation(ui, window, db, discount, thrd, mainui, model):
     db.open()
     query = QSqlQuery(db)
     #Retrieve room price from DB
@@ -76,3 +76,6 @@ def new_reservation(ui, window, db, discount):
                                             QtWidgets.QMessageBox.Ok)
     ui.lineEdit.clear()
     ui.checkBox.setCheckState(QtCore.Qt.Unchecked)
+    hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
+    worker = tableWorker(update_table("CurrentReservation", hlist, mainui.current_res, db, model))
+    thrd.tryStart(worker)

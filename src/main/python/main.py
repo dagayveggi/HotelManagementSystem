@@ -39,7 +39,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         model = QSqlTableModel(self.app, db)
 
         #Setup Signals
-        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db))
+        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db, ui, model))
         ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db))
         ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
@@ -48,12 +48,12 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(update_table("Room", hlist, ui.current_res, db, model)) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("CurrentReservation", hlist, ui.current_res, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         return self.app.exec_()                 # 3. End run() with this line
 
-    def new_res_dialog(self, db):
+    def new_res_dialog(self, db, mainui, model):
         ui = Ui_Reservation()
         new_res = QDialog()
         ui.setupUi(new_res)
@@ -61,7 +61,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd = QThreadPool().globalInstance()
         worker = tableWorker(collect_data(ui, db))
         
-        ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, ui.checkBox.isChecked()))
+        ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, ui.checkBox.isChecked(), thrd, mainui, model))
         ui.lineEdit.setText("RES" + str(randrange(100, 999, 10)))
         ui.dateEdit.setDate(ui.dateEdit.date().currentDate())
         ui.dateEdit_2.setDate(ui.dateEdit.date().currentDate())
