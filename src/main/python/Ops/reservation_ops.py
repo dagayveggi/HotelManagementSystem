@@ -36,29 +36,43 @@ def collect_data(ui, db): #! Needs revision and reformatting
             ui.comboBox.addItem(icon5, cust_model.index(i, 0).data(), cust_model.index(i, 1).data())
         i+=1"""
 
-def new_reservation(ui, window, db, thrd, model, discount):
+def new_reservation(ui, window, db, discount):
     db.open()
-    #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
-    query.prepare('SELECT Price FROM Room WHERE Number = ?')
-    query.bindValue(0, ui.comboBox_2.currentText())
-    query.exec()
-    price = query.result().data(0)
-    query.prepare("""INSERT INTO CurrentReservation (ResID, CtmrID, RmNumber, From, To, Discount, Extension, NetTotal)
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?)""")
-    query.bindValue(0, ui.lineEdit.text())
-    query.bindValue(1, ui.comboBox.currentData())
-    query.bindValue(2, ui.comboBox_2.currentText())
-    query.bindValue(3, ui.dateEdit.date().toString("d-M-yyyy"))
-    query.bindValue(4, ui.dateEdit_2.date().toString("d-M-yyyy"))
+    #Retrieve room price from DB
+    price_query = QSqlQuery(db)
+    price_query.prepare('SELECT Price FROM Room WHERE Number = ?')
+    price_query.addBindValue(ui.comboBox_2.currentText())
+    price_query.exec_()
+    price_query.next()
+    price = price_query.value(0)
+    #Prepare a query and add all values then execute and commit to DB
+    db.transaction()
+    query.prepare('INSERT INTO CurrentReservation VALUES (?,?,?,?,?,?,?,?)')
+    query.addBindValue(ui.lineEdit.text())
+    query.addBindValue(ui.treeView.currentIndex().siblingAtColumn(1).data())
+    query.addBindValue(ui.comboBox_2.currentText())
+    query.addBindValue(ui.dateEdit.date().toString(QtCore.Qt.ISODate))
+    query.addBindValue(ui.dateEdit_2.date().toString(QtCore.Qt.ISODate))
+    #Check if discount is applied
     if discount:
-        query.bindValue(5, ui.spinBox.value())
-        query.bindValue(6, price - (price * (ui.spinBox.value() / 100)))
+        query.addBindValue(ui.spinBox.value())
+        query.addBindValue(0)
+        query.addBindValue(price - (price * (ui.spinBox.value() / 100)))
     else:
-        query.bindValue(6, price)
-    query.exec()
+        query.addBindValue(ui.spinBox.value())
+        query.addBindValue(0)
+        query.addBindValue(price)
+    query.exec_()
     db.commit()
     db.close()
-    QtWidgets.QMessageBox.information(window, 'New Reservation created', 
-                                        'New Reservation has been successfully created', 
-                                        QtWidgets.QMessageBox.Ok)
+    if query.lastError().text() == '':
+        QtWidgets.QMessageBox.information(window, 'New Reservation', 
+                                            'New Reservation has been successfully created', 
+                                            QtWidgets.QMessageBox.Ok)
+    else:
+        QtWidgets.QMessageBox.information(window, 'New Reservation', 
+                                            query.lastError().text(), 
+                                            QtWidgets.QMessageBox.Ok)
+    ui.lineEdit.clear()
+    ui.checkBox.setCheckState(QtCore.Qt.Unchecked)

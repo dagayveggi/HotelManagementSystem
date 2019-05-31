@@ -58,13 +58,14 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_res = QDialog()
         ui.setupUi(new_res)
 
-        model = QSqlTableModel(new_res, db)
-
         thrd = QThreadPool().globalInstance()
         worker = tableWorker(collect_data(ui, db))
-
-        ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, thrd, model, (False, True)[ui.checkBox.isChecked()]))
-        ui.comboBox.currentIndexChanged.connect(lambda index: print(ui.treeView.currentIndex().siblingAtColumn(1).data()))
+        
+        ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, ui.checkBox.isChecked()))
+        ui.lineEdit.setText("RES" + str(randrange(100, 999, 10)))
+        ui.dateEdit.setDate(ui.dateEdit.date().currentDate())
+        ui.dateEdit_2.setDate(ui.dateEdit.date().currentDate())
+        ui.checkBox.stateChanged.connect(ui.spinBox.setEnabled)
 
         new_res.setWindowTitle('Create, edit, or delete a Reservation')
         new_res.exec()

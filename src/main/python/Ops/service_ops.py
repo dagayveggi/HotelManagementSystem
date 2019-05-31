@@ -6,11 +6,12 @@ def add_srv(ui, window, db, thrd, model):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
+    db.transaction()
     query.prepare('INSERT INTO Service (Id, Name, Price) VALUES(?, ?, ?)')
     query.bindValue(0, ui.lineEdit_2.text())
     query.bindValue(1, ui.lineEdit.text())
     query.bindValue(2, ui.doubleSpinBox.value())
-    query.exec()
+    query.exec_()
     db.commit()
     db.close()
     QtWidgets.QMessageBox.information(window, 'New Service created', 
@@ -27,9 +28,10 @@ def del_srv(ui, window, db, thrd, model):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
+    db.transaction()
     query.prepare('DELETE FROM Service WHERE ID = ?')
     query.bindValue(0, ui.lineEdit_2.text())
-    query.exec()
+    query.exec_()
     db.commit()
     db.close()
     QtWidgets.QMessageBox.information(window, 'Service deleted', 
@@ -46,12 +48,13 @@ def edit_srv(ui, window, db, thrd, model):
     db.open()
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
+    db.transaction()
     query.prepare('UPDATE Service SET ID = ?, Name = ?, Price = ? WHERE ID = ?')
     query.bindValue(0, ui.lineEdit_2.text())
     query.bindValue(1, ui.lineEdit.text())
     query.bindValue(2, ui.doubleSpinBox.value())
     query.bindValue(3, ui.lineEdit_2.text())
-    query.exec()
+    query.exec_()
     db.commit()
     db.close()
     QtWidgets.QMessageBox.information(window, 'Service edited', 
