@@ -43,8 +43,8 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db))
         ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
-        ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog((window, db, ui.current_res.currentIndex().siblingAtColumn(0).data())))
-        ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog((window, db, ui.current_res.currentIndex().siblingAtColumn(0).data())))
+        ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog(window, db, ui.current_res.currentIndex().siblingAtColumn(0).data()))
+        ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog(window, db, ui.current_res.currentIndex().siblingAtColumn(0).data()))
         
         #Threading
         thrd = QThreadPool().globalInstance()
@@ -126,9 +126,11 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_srv.exec()
     
     def new_cancel_dialog(self, window, db, resID):
-        new_cancel = QMessageBox.critical(window, 'Cancel Reservation',
-                                            'Are you sure you want to cancel the select Reservation',
-                                            QMessageBox.Yes | QMessageBox.No)
+        new_cancel = QMessageBox(window)
+        new_cancel.setWindowTitle('Cancel Reservation')
+        new_cancel.setText('Are you sure you want to cancel the select Reservation')
+        new_cancel.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        
         if new_cancel.exec_() == QMessageBox.Yes:
             db.open()
             query = QSqlQuery(db)
