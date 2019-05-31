@@ -5,6 +5,7 @@ from Ops.threading import tableWorker, update_table
 def collect_data(ui, db): #! Needs revision and reformatting
     num_model = QSqlQueryModel()
     cust_model = QSqlQueryModel()
+    ui.treeView = QtWidgets.QTreeView(ui.comboBox)
     #cust_ID = QSqlQuery(db)
     db.open()
     num_model.setQuery('SELECT Number FROM Room', db)
@@ -12,13 +13,16 @@ def collect_data(ui, db): #! Needs revision and reformatting
     #cust_ID.exec('SELECT ID FROM Customer')
     db.close()
 
-    ui.comboBox_2.setModel(num_model)
-    #ui.comboBox.setModel(cust_model)
-
     while cust_model.canFetchMore():
         cust_model.fetchMore()
 
-    icon4 = QtGui.QIcon()
+    ui.comboBox_2.setModel(num_model)
+    ui.comboBox.setModel(cust_model)
+
+    ui.comboBox.setView(ui.treeView)
+    ui.treeView.setColumnHidden(2, True)
+
+    """icon4 = QtGui.QIcon()
     icon4.addPixmap(QtGui.QPixmap(":/ctmr/48px-Emblem-person-blue.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
     icon5 = QtGui.QIcon()
     icon5.addPixmap(QtGui.QPixmap(":/ctmr/48px-User_icon_3.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -30,7 +34,7 @@ def collect_data(ui, db): #! Needs revision and reformatting
             ui.comboBox.addItem(icon4, cust_model.index(i, 0).data(), cust_model.index(i, 1).data())
         else:
             ui.comboBox.addItem(icon5, cust_model.index(i, 0).data(), cust_model.index(i, 1).data())
-        i+=1
+        i+=1"""
 
 def new_reservation(ui, window, db, thrd, model, discount):
     db.open()

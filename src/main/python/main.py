@@ -64,7 +64,8 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         worker = tableWorker(collect_data(ui, db))
 
         ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, thrd, model, (False, True)[ui.checkBox.isChecked()]))
-        
+        ui.comboBox.currentIndexChanged.connect(lambda index: print(ui.treeView.currentIndex().siblingAtColumn(1).data()))
+
         new_res.setWindowTitle('Create, edit, or delete a Reservation')
         new_res.exec()
     
