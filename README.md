@@ -1,4 +1,4 @@
-# HotelManagementSystem
+# Hotel Management System
 
 ## Information:
 ### Brief Description:
