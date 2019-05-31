@@ -22,3 +22,6 @@ I aim to build a reliable Hotel Management system with data accessibility and us
 
 ### Deploying:
 `cd` into the repository and `fbs freeze` which will generate a `target` file. Open that file and go into the `HotelManagementSystem` file and run `HotelManagementSystem.exe`
+
+### A note about myself:
+I'm 18 years old and I make management software for various businesses and startups.
