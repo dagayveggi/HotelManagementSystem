@@ -10,6 +10,7 @@ from UI.service import Ui_Service
 from UI.mainwin import Ui_MainWindow
 from Ops.reservation_ops import *
 from Ops.service_ops import *
+from Ops.room_ops import *
 from Ops.threading import tableWorker, update_table
 from random import randrange
 
@@ -88,6 +89,9 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
         worker = tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")) #We pass a function for the worker to execute
         thrd.tryStart(worker)
+
+        #Setup Signals and other UI elements
+        ui.lineEdit.editingFinished.connect(lambda: update_table_onEnter(hlist, ui, db, thrd, model))
         
         new_rm.setWindowTitle('Create, edit, or delete a Room')
         new_rm.exec()

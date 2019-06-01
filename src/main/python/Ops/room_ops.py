@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets, QtCore
+from Ops.threading import tableWorker, update_table
 from PyQt5.QtSql import QSqlQuery, QSqlError
 from Ops.threading import tableWorker, update_table
 
@@ -54,3 +55,15 @@ def edit_rm(ui, window, db, thrd, model):
                                         QtWidgets.QMessageBox.Ok)
     ui.lineEdit.clear()
     ui.spinBox.setValue(0)
+
+def update_table_onEnter(hlist, ui, db, thrd, model):
+    thrd.tryStart(tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")))
+    db.open()
+    query = QSqlQuery(db)
+    query.prepare('SELECT Type, Price FROM Room WHERE Number = ?')
+    query.addBindValue(ui.lineEdit.text())
+    query.exec_()
+    query.next()
+    ui.comboBox.setCurrentIndex(ui.comboBox.findText(query.value(0)))
+    ui.spinBox.setValue(query.value(1))
+    db.close()

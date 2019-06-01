@@ -131,6 +131,7 @@ class Ui_Room(object):
         self.spinBox.setPrefix(_translate("Room", "$"))
         self.label_3.setText(_translate("Room", "Room Type:"))
         self.label_2.setText(_translate("Room", "Price"))
+        self.lineEdit.setPlaceholderText(_translate("Room", "Enter a Room number and press Enter"))
         self.comboBox.setItemText(0, _translate("Room", "Single"))
         self.comboBox.setItemText(1, _translate("Room", "Double"))
         self.comboBox.setItemText(2, _translate("Room", "Triple"))
