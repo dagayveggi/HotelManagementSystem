@@ -86,7 +86,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         #Threading
         thrd = QThreadPool().globalInstance()
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(update_table("CurrentReservation", hlist, ui.current_res, db, model, where=f"RmNumber={new_rm.lineEdit}")) #We pass a function for the worker to execute
+        worker = tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")) #We pass a function for the worker to execute
         thrd.tryStart(worker)
         
         new_rm.setWindowTitle('Create, edit, or delete a Room')
