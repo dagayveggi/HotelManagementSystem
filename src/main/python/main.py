@@ -38,20 +38,24 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         db.setDatabaseName(self.get_resource('hotel.db'))
         model = QSqlTableModel(self.app, db)
 
-        #Setup Signals
-        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db, ui, model))
-        ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db))
-        ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
-        ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
-        ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog(window, db, ui.current_res.currentIndex().siblingAtColumn(0).data()))
-        ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog(window, db, ui.current_res.currentIndex().siblingAtColumn(0).data()))
-        
         #Threading
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
         worker = tableWorker(update_table("CurrentReservation", hlist, ui.current_res, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
+
+        #Setup Signals
+        ui.newRes.triggered.connect(lambda: self.new_res_dialog(db, ui, model))
+        ui.newRoom.triggered.connect(lambda: self.new_room_dialog(db))
+        ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
+        ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
+        ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog(window, db,
+                                                ui.current_res.currentIndex().siblingAtColumn(0).data(),
+                                                thrd, model, hlist, ui.current_res))
+        ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog(window, db, 
+                                                    ui.current_res.currentIndex().siblingAtColumn(0).data(),
+                                                    thrd, model, hlist, ui.current_res))
 
         return self.app.exec_()                 # 3. End run() with this line
 
@@ -125,7 +129,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_srv.setWindowTitle('Create, edit, or delete a Service')
         new_srv.exec()
     
-    def new_cancel_dialog(self, window, db, resID):
+    def new_cancel_dialog(self, window, db, resID, thrd, model, hlist, widget):
         new_cancel = QMessageBox(window)
         new_cancel.setWindowTitle('Cancel Reservation')
         new_cancel.setText('Are you sure you want to cancel the select Reservation')
@@ -136,11 +140,16 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
             db.open()
             query = QSqlQuery(db)
             db.transaction()
+            query.prepare('INSERT INTO ReservationHistory SELECT * FROM CurrentReservation WHERE ResID = ?')
+            query.addBindValue(resID)
+            query.exec_()
             query.prepare('DELETE FROM CurrentReservation WHERE ResID = ?')
             query.addBindValue(resID)
             query.exec_()
             db.commit()
-            db.close
+            db.close()
+            worker = tableWorker(update_table("CurrentReservation", hlist, widget, db, model))
+            thrd.tryStart(worker)
         else:
             new_cancel.close()
 
