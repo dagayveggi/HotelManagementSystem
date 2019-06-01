@@ -8,9 +8,11 @@ class tableWorker(QRunnable):
     def run(self):
         self.fn
 
-def update_table(table, headers, widget, db, model):
+def update_table(table, headers, widget, db, model, where=None):
         db.open()
         model.setTable(table)
+        if where != None:
+            model.setFilter(where)
         num = 0
         for i in headers:
             model.setHeaderData(num, Qt.Horizontal, i)

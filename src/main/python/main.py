@@ -82,6 +82,12 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.setupUi(new_rm)
 
         model = QSqlTableModel(new_rm, db)
+
+        #Threading
+        thrd = QThreadPool().globalInstance()
+        hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
+        worker = tableWorker(update_table("CurrentReservation", hlist, ui.current_res, db, model, where=f"RmNumber={new_rm.lineEdit}")) #We pass a function for the worker to execute
+        thrd.tryStart(worker)
         
         new_rm.setWindowTitle('Create, edit, or delete a Room')
         new_rm.exec()
@@ -135,7 +141,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_cancel.setText('Are you sure you want to cancel the select Reservation')
         new_cancel.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
 
-        #TODO Send deleted Reservation to the archive and add canceled column there
+        #TODO Add a boolean column for cancelation
         if new_cancel.exec_() == QMessageBox.Yes:
             db.open()
             query = QSqlQuery(db)
