@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtSql import QSqlQuery, QSqlError, QSqlQueryModel
 from Ops.threading import tableWorker, update_table
 
-def collect_data(ui, db): #! Needs revision and reformatting
+def collect_data(ui, db): #! Please add cute Icons back, sir
     num_model = QSqlQueryModel()
     cust_model = QSqlQueryModel()
     ui.treeView = QtWidgets.QTreeView(ui.comboBox)
@@ -50,8 +50,8 @@ def new_reservation(ui, window, db, discount, thrd, mainui, model):
     query.addBindValue(ui.lineEdit.text())
     query.addBindValue(ui.treeView.currentIndex().siblingAtColumn(1).data())
     query.addBindValue(ui.comboBox_2.currentText())
-    query.addBindValue(ui.dateEdit.date().toString(QtCore.Qt.ISODate))
-    query.addBindValue(ui.dateEdit_2.date().toString(QtCore.Qt.ISODate))
+    query.addBindValue(ui.dateEdit.date().toString("yyyy-M-d"))
+    query.addBindValue(ui.dateEdit_2.date().toString("yyyy-M-d"))
     #Check if discount is applied
     if discount:
         query.addBindValue(ui.spinBox.value())

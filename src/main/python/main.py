@@ -116,7 +116,11 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         worker = tableWorker(update_table("Customer", hlist, ui.tableView, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
-        ui.lineEdit_2.textChanged.connect(lambda: update_custTable_onEnter(new_cust, hlist, ui, db, thrd, model))
+        #? Consider using, instead of QSqlQuery, A QSqlTableModel and insert or delete from it
+        ui.lineEdit_2.textEdited.connect(lambda: update_custTable_onEnter(new_cust, hlist, ui, db, thrd, model))
+        ui.pushButton_3.clicked.connect(lambda: add_cust(ui, new_cust, db))
+        ui.pushButton_2.clicked.connect(lambda: edit_cust(ui, new_cust, db))
+        ui.pushButton.clicked.connect(lambda: del_cust(ui, new_cust, db))
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()
