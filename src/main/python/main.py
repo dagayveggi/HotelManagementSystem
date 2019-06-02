@@ -11,6 +11,7 @@ from UI.mainwin import Ui_MainWindow
 from Ops.reservation_ops import *
 from Ops.service_ops import *
 from Ops.room_ops import *
+from Ops.customer_ops import *
 from Ops.threading import tableWorker, update_table
 from random import randrange
 
@@ -54,6 +55,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog(window, db,
                                                 ui.current_res.currentIndex().siblingAtColumn(0).data(),
                                                 thrd, model, hlist, ui.current_res))
+        #TODO Add new dialog for adding/deleting services to a current Reservation
         ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog(window, db, 
                                                     ui.current_res.currentIndex().siblingAtColumn(0).data(),
                                                     thrd, model, hlist, ui.current_res))
@@ -110,8 +112,11 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(update_table("Customer", ['Customer ID','Name','Phone #','Date of Birth','# Reservations'], ui.tableView, db, model)) #We pass a function for the worker to execute
+        hlist = ['Customer ID','Name','Phone #','Date of Birth','# Reservations']
+        worker = tableWorker(update_table("Customer", hlist, ui.tableView, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
+
+        ui.lineEdit_2.textChanged.connect(lambda: update_custTable_onEnter(new_cust, hlist, ui, db, thrd, model))
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()
