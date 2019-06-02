@@ -1,7 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 from Ops.threading import tableWorker, update_table
 from PyQt5.QtSql import QSqlQuery, QSqlError
-from Ops.threading import tableWorker, update_table
 
 def add_rm(ui, window, db):
     db.open()

@@ -1,7 +1,6 @@
 from PyQt5 import QtWidgets, QtCore
 from Ops.threading import tableWorker, update_table
 from PyQt5.QtSql import QSqlQuery, QSqlError
-from Ops.threading import tableWorker, update_table
 
 def add_cust(ui, window, db):
     db.open()
@@ -19,7 +18,6 @@ def add_cust(ui, window, db):
         query.exec_()
         db.commit()
         db.close()
-        print(query.lastError().text())
         QtWidgets.QMessageBox.information(window, 'New Customer created', 
                                             'New Customer has been successfully created', 
                                             QtWidgets.QMessageBox.Ok)
