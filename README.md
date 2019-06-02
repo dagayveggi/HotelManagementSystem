@@ -25,7 +25,7 @@ I aim to build a reliable Hotel Management system with data accessibility and us
 
 ### TODO (Additional and not part of MVP):
 - Code the Charts
-- Add report and invoice printing through QtPrintSupport (*optional*)
+- Add report and invoice printing through QtPrintSupport
 - Tidy up the existing code
 - Settings dialog for database, importing data, and SQL console
 
