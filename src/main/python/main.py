@@ -91,8 +91,13 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
-        ui.lineEdit.editingFinished.connect(lambda: update_table_onEnter(hlist, ui, db, thrd, model))
-        
+        ui.lineEdit.setFocus()
+        # TODO find a better signal than textChanged because it sucks bad
+        ui.lineEdit.textChanged.connect(lambda: update_table_onEnter(new_rm, hlist, ui, db, thrd, model))
+        ui.pushButton_3.clicked.connect(lambda: add_rm(ui, new_rm, db))
+        ui.pushButton_2.clicked.connect(lambda: edit_rm(ui, new_rm, db))
+        ui.pushButton.clicked.connect(lambda: del_rm(ui, new_rm, db))
+
         new_rm.setWindowTitle('Create, edit, or delete a Room')
         new_rm.exec()
 
