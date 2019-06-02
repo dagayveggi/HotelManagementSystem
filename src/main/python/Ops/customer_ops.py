@@ -77,26 +77,25 @@ def edit_rm(ui, window, db):
 
 
 def update_custTable_onEnter(window, hlist, ui, db, thrd, model):
-    thrd.tryStart(tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"CtmrID={ui.lineEdit_2.text()}")))
     db.open()
-    if ui.lineEdit.text() != '':
+    if ui.lineEdit_2.text() != '':
         query = QSqlQuery(db)
         query.setForwardOnly(True)
         query.prepare('SELECT Name, Phone, DoB, Sex FROM Customer WHERE ID = ?')
         query.addBindValue(ui.lineEdit_2.text())
         query.exec_()
-        print(query.record().count())
-        try:
+        if query.record().count() > 0:
             query.next()
-            ui.comboBox.setCurrentIndex(ui.lineEdit.setText(query.value(0)))
+            ui.lineEdit.setText(query.value(0))
             ui.spinBox.setValue(query.value(1))
-            ui.dateEdit.setDate(ui.dateEdit.fromString(query.value(2)))
+            ui.dateEdit.setDate(ui.dateEdit.date().fromString(query.value(2), "yyyy-M-d"))
             ui.comboBox.setCurrentIndex(ui.comboBox.findText(query.value(3)))
             db.close()
-        except Exception:
+        else:
             QtWidgets.QMessageBox.warning(window,'Warning',f"Customer with ID: {ui.lineEdit_2.text()} was not found", QtWidgets.QMessageBox.NoButton)
-            if ui.comboBox.currentText() != '':
-                ui.lineEdit.clear()
-                ui.lineEdit_2.clear()
-                ui.spinBox.setValue(0)
-                ui.dateEdit.setDate(ui.dateEdit.date().currentDate())
+            ui.lineEdit.clear()
+            ui.lineEdit_2.clear()
+            ui.spinBox.setValue(0)
+            ui.dateEdit.setDate(ui.dateEdit.date().currentDate())
+    else:
+        thrd.tryStart(tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"CtmrID={ui.lineEdit_2.text()}")))
