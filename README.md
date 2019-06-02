@@ -23,5 +23,11 @@ I aim to build a reliable Hotel Management system with data accessibility and us
 ### Deploying:
 `cd` into the repository and `fbs freeze` which will generate a `target` file. Open that file and go into the `HotelManagementSystem` file and run `HotelManagementSystem.exe`
 
+### TODO (Additional and not part of MVP):
+- Code the Charts
+- Add report and invoice printing through QtPrintSupport (*optional*)
+- Tidy up the existing code
+- Settings dialog for database, importing data, and SQL console
+
 ### A note about myself:
 I'm 18 years old and I make management software for various businesses and startups.
