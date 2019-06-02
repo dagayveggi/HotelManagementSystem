@@ -8,6 +8,7 @@ from UI.room import Ui_Room
 from UI.customer import Ui_Customer
 from UI.service import Ui_Service
 from UI.mainwin import Ui_MainWindow
+from Ops.database_ops import *
 from Ops.reservation_ops import *
 from Ops.service_ops import *
 from Ops.room_ops import *
@@ -96,9 +97,20 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.lineEdit.setFocus()
         # TODO find a better signal than textChanged because it sucks bad
         ui.lineEdit.textChanged.connect(lambda: update_table_onEnter(new_rm, hlist, ui, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: add_rm(ui, new_rm, db))
-        ui.pushButton_2.clicked.connect(lambda: edit_rm(ui, new_rm, db))
-        ui.pushButton.clicked.connect(lambda: del_rm(ui, new_rm, db))
+        ui.pushButton_3.clicked.connect(lambda: add_DB(ui, new_rm, db, 
+                                                "Room",
+                                                [ui.lineEdit.text(),ui.comboBox.currentText(),ui.spinBox.value(),0],
+                                                "?, ?, ?, ?",
+                                                [ui.lineEdit,ui.spinBox]))
+        ui.pushButton_2.clicked.connect(lambda: edit_DB(ui, new_rm, db,
+                                                "Room",
+                                                [ui.lineEdit.text(),ui.comboBox.currentText(),ui.spinBox.value(),ui.lineEdit.text()],
+                                                "Number = ?, Type = ?, Price = ?",
+                                                "Number",
+                                                [ui.lineEdit,ui.spinBox]))
+        ui.pushButton.clicked.connect(lambda: del_DB(ui, new_rm, db,
+                                                    "Room", "Number", ui.lineEdit.text(),
+                                                    [ui.lineEdit,ui.spinBox]))
 
         new_rm.setWindowTitle('Create, edit, or delete a Room')
         new_rm.exec()
