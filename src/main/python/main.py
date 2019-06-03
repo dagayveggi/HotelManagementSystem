@@ -97,20 +97,20 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.lineEdit.setFocus()
         # TODO find a better signal than textChanged because it sucks bad
         ui.lineEdit.textChanged.connect(lambda: update_table_onEnter(new_rm, hlist, ui, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: add_DB(ui, new_rm, db, 
+        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_rm, db, 
                                                 "Room",
                                                 [ui.lineEdit.text(),ui.comboBox.currentText(),ui.spinBox.value(),0],
                                                 "?, ?, ?, ?",
-                                                [ui.lineEdit,ui.spinBox]))
-        ui.pushButton_2.clicked.connect(lambda: edit_DB(ui, new_rm, db,
+                                                [ui.lineEdit,ui.spinBox]))))
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_rm, db,
                                                 "Room",
                                                 [ui.lineEdit.text(),ui.comboBox.currentText(),ui.spinBox.value(),ui.lineEdit.text()],
                                                 "Number = ?, Type = ?, Price = ?",
                                                 "Number",
-                                                [ui.lineEdit,ui.spinBox]))
-        ui.pushButton.clicked.connect(lambda: del_DB(ui, new_rm, db,
+                                                [ui.lineEdit,ui.spinBox]))))
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_rm, db,
                                                     "Room", "Number", ui.lineEdit.text(),
-                                                    [ui.lineEdit,ui.spinBox]))
+                                                    [ui.lineEdit,ui.spinBox]))))
 
         new_rm.setWindowTitle('Create, edit, or delete a Room')
         new_rm.exec()
@@ -130,9 +130,20 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #? Consider using, instead of QSqlQuery, A QSqlTableModel and insert or delete from it
         ui.lineEdit_2.textEdited.connect(lambda: update_custTable_onEnter(new_cust, hlist, ui, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: add_cust(ui, new_cust, db))
-        ui.pushButton_2.clicked.connect(lambda: edit_cust(ui, new_cust, db))
-        ui.pushButton.clicked.connect(lambda: del_cust(ui, new_cust, db))
+        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_cust, db, 
+                                                "Customer",
+                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-M-d"),ui.comboBox.currentText(),0],
+                                                "?,?,?,?,?,?",
+                                                [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_cust, db,
+                                                "Customer",
+                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-M-d"),ui.comboBox.currentText(),ui.lineEdit_2.text()],
+                                                "ID = ?, Name = ?, Phone = ?, DoB = ?, Sex = ?",
+                                                "ID",
+                                                [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_cust, db,
+                                                    "Customer", "ID", ui.lineEdit_2.text(),
+                                                    [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()
@@ -151,9 +162,20 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
-        ui.pushButton.clicked.connect(lambda: add_srv(ui, new_srv, db, thrd, model))
-        ui.pushButton_2.clicked.connect(lambda: edit_srv(ui, new_srv, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: del_srv(ui, new_srv, db, thrd, model))
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_srv, db, 
+                                                "Service",
+                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.doubleSpinBox.value()],
+                                                "?,?,?",
+                                                [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_srv, db,
+                                                "Service",
+                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.doubleSpinBox.value(),ui.lineEdit_2.text()],
+                                                "ID = ?, Name = ?, Price = ?",
+                                                "ID",
+                                                [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
+        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_srv, db,
+                                                    "Service", "ID", ui.lineEdit_2.text(),
+                                                    [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
         #When an item in the tableView is selected update lineEdit and lineEdit_2 for better workflow
         #You can just repeat the connect() method and it wouldn't override the previous one
         ui.tableView.clicked.connect(lambda index: ui.lineEdit_2.setText(index.siblingAtColumn(0).data()))
