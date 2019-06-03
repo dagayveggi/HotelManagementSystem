@@ -222,14 +222,14 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #Setup ComboBox view
         db.open()
-        cust_model = QSqlQueryModel()
+        srv_model = QSqlQueryModel()
         ui.treeView = QtWidgets.QTreeView(ui.comboBox)
-        cust_model.setQuery('SELECT Name, ID FROM Service', db)
+        srv_model.setQuery('SELECT Name, ID FROM Service', db)
         db.close()
 
-        while cust_model.canFetchMore():
-            cust_model.fetchMore()
-        ui.comboBox.setModel(cust_model)
+        while srv_model.canFetchMore():
+            srv_model.fetchMore()
+        ui.comboBox.setModel(srv_model)
 
         ui.comboBox.setView(ui.treeView)
         db.close()
