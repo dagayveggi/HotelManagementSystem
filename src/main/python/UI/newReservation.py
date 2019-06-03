@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Reservation(object):
     def setupUi(self, Reservation):
         Reservation.setObjectName("Reservation")
-        Reservation.resize(480, 319)
+        Reservation.resize(480, 320)
         Reservation.setBaseSize(QtCore.QSize(0, 0))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/Res/48px-Appointment-new.svg.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -103,10 +103,12 @@ class Ui_Reservation(object):
         self.label_4.setText(_translate("Reservation", "Room:"))
         self.groupBox_2.setTitle(_translate("Reservation", "Date of Reservation"))
         self.label.setText(_translate("Reservation", "From:"))
+        self.dateEdit.setDisplayFormat(_translate("Reservation", "yyyy-MM-dd"))
         self.label_2.setText(_translate("Reservation", "To:"))
+        self.dateEdit_2.setDisplayFormat(_translate("Reservation", "yyyy-MM-dd"))
         self.checkBox.setText(_translate("Reservation", "Discount?"))
         self.spinBox.setPrefix(_translate("Reservation", "%"))
         self.pushButton.setText(_translate("Reservation", "Reserve"))
         self.label_5.setText(_translate("Reservation", "Reservation ID:"))
 
-import UI.rc_rc
+import rc_rc

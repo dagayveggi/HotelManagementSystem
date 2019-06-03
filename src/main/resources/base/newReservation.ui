@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>319</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -74,6 +74,9 @@
            </item>
            <item row="0" column="1">
             <widget class="QDateEdit" name="dateEdit">
+             <property name="displayFormat">
+              <string>yyyy-MM-dd</string>
+             </property>
              <property name="calendarPopup">
               <bool>true</bool>
              </property>
@@ -88,6 +91,9 @@
            </item>
            <item row="2" column="1">
             <widget class="QDateEdit" name="dateEdit_2">
+             <property name="displayFormat">
+              <string>yyyy-MM-dd</string>
+             </property>
              <property name="calendarPopup">
               <bool>true</bool>
              </property>

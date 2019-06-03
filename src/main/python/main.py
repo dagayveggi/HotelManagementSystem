@@ -10,7 +10,6 @@ from UI.service import Ui_Service
 from UI.mainwin import Ui_MainWindow
 from Ops.database_ops import *
 from Ops.reservation_ops import *
-from Ops.service_ops import *
 from Ops.room_ops import *
 from Ops.customer_ops import *
 from Ops.threading import tableWorker, update_table
@@ -132,18 +131,19 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.lineEdit_2.textEdited.connect(lambda: update_custTable_onEnter(new_cust, hlist, ui, db, thrd, model))
         ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_cust, db, 
                                                 "Customer",
-                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-M-d"),ui.comboBox.currentText(),0],
+                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-MM-dd"),ui.comboBox.currentText(),0],
                                                 "?,?,?,?,?,?",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
         ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_cust, db,
                                                 "Customer",
-                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-M-d"),ui.comboBox.currentText(),ui.lineEdit_2.text()],
+                                                [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-MM-dd"),ui.comboBox.currentText(),ui.lineEdit_2.text()],
                                                 "ID = ?, Name = ?, Phone = ?, DoB = ?, Sex = ?",
                                                 "ID",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
         ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_cust, db,
                                                     "Customer", "ID", ui.lineEdit_2.text(),
                                                     [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
+        ui.lineEdit.setText("CTMR" + str(randrange(100, 999, 10)))
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()

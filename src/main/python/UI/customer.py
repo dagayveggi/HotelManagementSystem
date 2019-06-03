@@ -140,6 +140,7 @@ class Ui_Customer(object):
         self.label.setText(_translate("Customer", "Name:"))
         self.spinBox.setPrefix(_translate("Customer", "0"))
         self.label_3.setText(_translate("Customer", "Date of Birth:"))
+        self.dateEdit.setDisplayFormat(_translate("Customer", "yyyy-MM-dd"))
         self.label_2.setText(_translate("Customer", "Phone Number:"))
         self.label_4.setText(_translate("Customer", "Sex:"))
         self.comboBox.setItemText(0, _translate("Customer", "Male"))
@@ -148,4 +149,4 @@ class Ui_Customer(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Customer", "Current Reservations"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Customer", "Archived Reservations"))
 
-import UI.rc_rc
+import rc_rc
