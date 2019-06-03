@@ -54,7 +54,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.newService.triggered.connect(lambda: self.new_srv_dialog(db))
         ui.newCustomer.triggered.connect(lambda: self.new_customer_dialog(db))
         ui.cancelRes.triggered.connect(lambda: self.new_cancel_dialog(window, db,
-                                                ui.current_res.currentIndex().siblingAtColumn(0).data(),
+                                                ui.current_res.currentIndex(),
                                                 thrd, model, hlist, ui.current_res))
         #TODO Add new dialog for adding/deleting services to a current Reservation
         ui.current_res.doubleClicked.connect(lambda: self.new_addservice_dialog(window, db, 
@@ -144,7 +144,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_cust, db,
                                                     "Customer", "ID", ui.lineEdit_2.text(),
                                                     [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
-        ui.lineEdit.setText("CTMR" + str(randrange(100, 999, 10)))
+        ui.lineEdit_2.setText("CTMR" + str(randrange(100, 999, 10)))
 
         new_cust.setWindowTitle('Create, edit, or delete a Customer')
         new_cust.exec()
@@ -188,7 +188,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         new_srv.setWindowTitle('Create, edit, or delete a Service')
         new_srv.exec()
     
-    def new_cancel_dialog(self, window, db, resID, thrd, model, hlist, widget):
+    def new_cancel_dialog(self, window, db, res_index, thrd, model, hlist, widget):
         new_cancel = QMessageBox(window)
         new_cancel.setWindowTitle('Cancel Reservation')
         new_cancel.setText('Are you sure you want to cancel the select Reservation')
@@ -199,11 +199,13 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
             db.open()
             query = QSqlQuery(db)
             db.transaction()
-            query.prepare('INSERT INTO ReservationHistory SELECT * FROM CurrentReservation WHERE ResID = ?')
-            query.addBindValue(resID)
+            query.prepare('INSERT INTO CancelledReservation VALUES(?, ?, ?)')
+            query.addBindValue(res_index.siblingAtColumn(0).data())
+            query.addBindValue(res_index.siblingAtColumn(1).data())
+            query.addBindValue(res_index.siblingAtColumn(2).data())
             query.exec_()
             query.prepare('DELETE FROM CurrentReservation WHERE ResID = ?')
-            query.addBindValue(resID)
+            query.addBindValue(res_index.siblingAtColumn(0).data())
             query.exec_()
             db.commit()
             db.close()
