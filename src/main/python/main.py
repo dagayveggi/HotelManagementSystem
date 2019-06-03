@@ -58,7 +58,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
                                                 thrd, model, hlist, ui.current_res))
         #TODO Add new dialog for adding/deleting services to a current Reservation
         ui.current_res.doubleClicked.connect(lambda: self.new_addservice_dialog(window, db, 
-                                                    ui.current_res.currentIndex().siblingAtColumn(0).data(), thrd))
+                                                    ui.current_res.currentIndex(), thrd))
 
         return self.app.exec_()                 # 3. End run() with this line
 
@@ -109,7 +109,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
                                                 "Number",
                                                 [ui.lineEdit,ui.spinBox]))))
         ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_rm, db,
-                                                    "Room", "Number", ui.lineEdit.text(),
+                                                    "Room", "Number = ?", [ui.lineEdit.text()],
                                                     [ui.lineEdit,ui.spinBox]))))
 
         new_rm.setWindowTitle('Create, edit, or delete a Room')
@@ -142,7 +142,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
                                                 "ID",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
         ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_cust, db,
-                                                    "Customer", "ID", ui.lineEdit_2.text(),
+                                                    "Customer", "ID = ?", [ui.lineEdit_2.text()],
                                                     [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
         ui.lineEdit_2.setText("CTMR" + str(randrange(100, 999, 10)))
 
@@ -175,7 +175,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
                                                 "ID",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
         ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_srv, db,
-                                                    "Service", "ID", ui.lineEdit_2.text(),
+                                                    "Service", "ID = ?", [ui.lineEdit_2.text()],
                                                     [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
         #When an item in the tableView is selected update lineEdit and lineEdit_2 for better workflow
         #You can just repeat the connect() method and it wouldn't override the previous one
@@ -214,13 +214,34 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         else:
             new_cancel.close()
 
-    def new_addservice_dialog(self, window, db, resID, thrd):
+    def new_addservice_dialog(self, window, db, res_index, thrd):
         #Setup UI
         ui = Ui_AddService()
         new_addservice = QDialog()
         ui.setupUi(new_addservice)
 
-        model = QSqlTableModel(new_addservice, db)
+        #Setup ComboBox view
+        db.open()
+        cust_model = QSqlQueryModel()
+        ui.treeView = QtWidgets.QTreeView(ui.comboBox)
+        cust_model.setQuery('SELECT Name, ID FROM Service', db)
+        db.close()
+
+        while cust_model.canFetchMore():
+            cust_model.fetchMore()
+        ui.comboBox.setModel(cust_model)
+
+        ui.comboBox.setView(ui.treeView)
+        db.close()
+
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(add_DB(ui, new_addservice, db, 
+                                                "RoomService",
+                                                [res_index.siblingAtColumn(0).data(),res_index.siblingAtColumn(1).data(),res_index.siblingAtColumn(2).data(),ui.treeView.currentIndex().siblingAtColumn(1).data()],
+                                                "?, ?, ?, ?",
+                                                []))))
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_addservice, db,
+                                                    "RoomService", "SrvID = ?, ResID = ?", [ui.treeView.currentIndex().siblingAtColumn(1).data(), res_index.siblingAtColumn(0).data()],
+                                                    []))))
 
         new_addservice.setWindowTitle('Add or remove a Service')
         new_addservice.exec()

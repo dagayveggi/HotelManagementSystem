@@ -32,12 +32,14 @@ def del_DB(ui, window, db, table, identifier, idvalue, widget_list):
     #Prepare a query and add all values then execute and commit to DB
     query = QSqlQuery(db)
     db.transaction()
-    query.prepare(f"DELETE FROM {table} WHERE {identifier} = ?")
-    query.addBindValue(idvalue)
+    query.prepare(f"DELETE FROM {table} WHERE {identifier}")
+    for i in idvalue:
+        query.addBindValue(i)
     try:
         query.exec_()
         db.commit()
         db.close()
+        print(query.lastQuery())
         QtWidgets.QMessageBox.information(window, f"{table} deleted", 
                                             f"{table} has been successfully deleted", 
                                             QtWidgets.QMessageBox.Ok)
