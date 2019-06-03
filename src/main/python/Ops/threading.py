@@ -1,8 +1,8 @@
 from PyQt5.QtCore import QRunnable, Qt
 
-class tableWorker(QRunnable):
+class TableWorker(QRunnable):
     def __init__(self, fn):
-        super(tableWorker, self).__init__()
+        super(TableWorker, self).__init__()
         self.fn = fn
     
     def run(self):

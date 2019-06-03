@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtSql import QSqlQuery, QSqlError, QSqlQueryModel
-from Ops.threading import tableWorker, update_table
+from Ops.threading import TableWorker, update_table
 
 def collect_data(ui, db): #! Please add cute Icons back, sir
     num_model = QSqlQueryModel()
@@ -75,5 +75,5 @@ def new_reservation(ui, window, db, discount, thrd, mainui, model):
     ui.lineEdit.clear()
     ui.checkBox.setCheckState(QtCore.Qt.Unchecked)
     hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-    worker = tableWorker(update_table("CurrentReservation", hlist, mainui.current_res, db, model))
+    worker = TableWorker(update_table("CurrentReservation", hlist, mainui.current_res, db, model))
     thrd.tryStart(worker)

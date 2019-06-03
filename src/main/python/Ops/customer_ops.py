@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore
-from Ops.threading import tableWorker, update_table
+from Ops.threading import TableWorker, update_table
 from PyQt5.QtSql import QSqlQuery, QSqlError
 
 def update_custTable_onEnter(window, hlist, ui, db, thrd, model):
@@ -27,4 +27,4 @@ def update_custTable_onEnter(window, hlist, ui, db, thrd, model):
             ui.spinBox.setValue(0)
             ui.dateEdit.setDate(ui.dateEdit.date().currentDate())
     elif ui.lineEdit_2.text() == '':
-        thrd.tryStart(tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"CtmrID={ui.lineEdit_2.text()}")))
+        thrd.tryStart(TableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"CtmrID={ui.lineEdit_2.text()}")))

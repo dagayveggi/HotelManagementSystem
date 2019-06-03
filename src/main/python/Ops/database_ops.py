@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore
-from Ops.threading import tableWorker, update_table
+from Ops.threading import TableWorker, update_table
 from PyQt5.QtSql import QSqlQuery, QSqlError
 
 #! All functions need revision to maybe find a way to reduce

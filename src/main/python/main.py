@@ -7,12 +7,13 @@ from UI.newReservation import Ui_Reservation
 from UI.room import Ui_Room
 from UI.customer import Ui_Customer
 from UI.service import Ui_Service
+from UI.add_service import Ui_AddService
 from UI.mainwin import Ui_MainWindow
 from Ops.database_ops import *
 from Ops.reservation_ops import *
 from Ops.room_ops import *
 from Ops.customer_ops import *
-from Ops.threading import tableWorker, update_table
+from Ops.threading import TableWorker, update_table
 from random import randrange
 
 import sys
@@ -44,7 +45,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         thrd = QThreadPool().globalInstance()
         thrd.setExpiryTimeout(5)
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(update_table("CurrentReservation", hlist, ui.current_res, db, model)) #We pass a function for the worker to execute
+        worker = TableWorker(update_table("CurrentReservation", hlist, ui.current_res, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals
@@ -56,9 +57,8 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
                                                 ui.current_res.currentIndex().siblingAtColumn(0).data(),
                                                 thrd, model, hlist, ui.current_res))
         #TODO Add new dialog for adding/deleting services to a current Reservation
-        ui.current_res.doubleClicked.connect(lambda: self.new_cancel_dialog(window, db, 
-                                                    ui.current_res.currentIndex().siblingAtColumn(0).data(),
-                                                    thrd, model, hlist, ui.current_res))
+        ui.current_res.doubleClicked.connect(lambda: self.new_addservice_dialog(window, db, 
+                                                    ui.current_res.currentIndex().siblingAtColumn(0).data(), thrd))
 
         return self.app.exec_()                 # 3. End run() with this line
 
@@ -68,7 +68,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         ui.setupUi(new_res)
 
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(collect_data(ui, db))
+        worker = TableWorker(collect_data(ui, db))
         thrd.tryStart(worker)
         
         ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, ui.checkBox.isChecked(), thrd, mainui, model))
@@ -90,25 +90,25 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         #Threading
         thrd = QThreadPool().globalInstance()
         hlist = ['Reserv. ID','Customer ID','Room #','From','To','Discount','Extension','Net Total']
-        worker = tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")) #We pass a function for the worker to execute
+        worker = TableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
         ui.lineEdit.setFocus()
         # TODO find a better signal than textChanged because it sucks bad
         ui.lineEdit.textChanged.connect(lambda: update_table_onEnter(new_rm, hlist, ui, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_rm, db, 
+        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(TableWorker(add_DB(ui, new_rm, db, 
                                                 "Room",
                                                 [ui.lineEdit.text(),ui.comboBox.currentText(),ui.spinBox.value(),0],
                                                 "?, ?, ?, ?",
                                                 [ui.lineEdit,ui.spinBox]))))
-        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_rm, db,
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(TableWorker(edit_DB(ui, new_rm, db,
                                                 "Room",
                                                 [ui.lineEdit.text(),ui.comboBox.currentText(),ui.spinBox.value(),ui.lineEdit.text()],
                                                 "Number = ?, Type = ?, Price = ?",
                                                 "Number",
                                                 [ui.lineEdit,ui.spinBox]))))
-        ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_rm, db,
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_rm, db,
                                                     "Room", "Number", ui.lineEdit.text(),
                                                     [ui.lineEdit,ui.spinBox]))))
 
@@ -125,23 +125,23 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
         #Setup Threading
         thrd = QThreadPool().globalInstance()
         hlist = ['Customer ID','Name','Phone #','Date of Birth','# Reservations']
-        worker = tableWorker(update_table("Customer", hlist, ui.tableView, db, model)) #We pass a function for the worker to execute
+        worker = TableWorker(update_table("Customer", hlist, ui.tableView, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #? Consider using, instead of QSqlQuery, A QSqlTableModel and insert or delete from it
         ui.lineEdit_2.textEdited.connect(lambda: update_custTable_onEnter(new_cust, hlist, ui, db, thrd, model))
-        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_cust, db, 
+        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(TableWorker(add_DB(ui, new_cust, db, 
                                                 "Customer",
                                                 [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-MM-dd"),ui.comboBox.currentText(),0],
                                                 "?,?,?,?,?,?",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
-        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_cust, db,
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(TableWorker(edit_DB(ui, new_cust, db,
                                                 "Customer",
                                                 [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.spinBox.value(),ui.dateEdit.date().toString("yyyy-MM-dd"),ui.comboBox.currentText(),ui.lineEdit_2.text()],
                                                 "ID = ?, Name = ?, Phone = ?, DoB = ?, Sex = ?",
                                                 "ID",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
-        ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_cust, db,
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_cust, db,
                                                     "Customer", "ID", ui.lineEdit_2.text(),
                                                     [ui.lineEdit_2,ui.lineEdit,ui.spinBox,ui.dateEdit]))))
         ui.lineEdit.setText("CTMR" + str(randrange(100, 999, 10)))
@@ -159,22 +159,22 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         #Setup Threading
         thrd = QThreadPool().globalInstance()
-        worker = tableWorker(update_table("Service", ['Service ID','Name','Price'], ui.tableView, db, model)) #We pass a function for the worker to execute
+        worker = TableWorker(update_table("Service", ['Service ID','Name','Price'], ui.tableView, db, model)) #We pass a function for the worker to execute
         thrd.tryStart(worker)
 
         #Setup Signals and other UI elements
-        ui.pushButton.clicked.connect(lambda: thrd.tryStart(tableWorker(add_DB(ui, new_srv, db, 
+        ui.pushButton.clicked.connect(lambda: thrd.tryStart(TableWorker(add_DB(ui, new_srv, db, 
                                                 "Service",
                                                 [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.doubleSpinBox.value()],
                                                 "?,?,?",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
-        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(tableWorker(edit_DB(ui, new_srv, db,
+        ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(TableWorker(edit_DB(ui, new_srv, db,
                                                 "Service",
                                                 [ui.lineEdit_2.text(),ui.lineEdit.text(),ui.doubleSpinBox.value(),ui.lineEdit_2.text()],
                                                 "ID = ?, Name = ?, Price = ?",
                                                 "ID",
                                                 [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
-        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(tableWorker(del_DB(ui, new_srv, db,
+        ui.pushButton_3.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_srv, db,
                                                     "Service", "ID", ui.lineEdit_2.text(),
                                                     [ui.lineEdit_2,ui.lineEdit,ui.doubleSpinBox]))))
         #When an item in the tableView is selected update lineEdit and lineEdit_2 for better workflow
@@ -207,11 +207,21 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
             query.exec_()
             db.commit()
             db.close()
-            worker = tableWorker(update_table("CurrentReservation", hlist, widget, db, model))
+            worker = TableWorker(update_table("CurrentReservation", hlist, widget, db, model))
             thrd.tryStart(worker)
         else:
             new_cancel.close()
 
+    def new_addservice_dialog(self, window, db, resID, thrd):
+        #Setup UI
+        ui = Ui_AddService()
+        new_addservice = QDialog()
+        ui.setupUi(new_addservice)
+
+        model = QSqlTableModel(new_addservice, db)
+
+        new_addservice.setWindowTitle('Add or remove a Service')
+        new_addservice.exec()
 
 if __name__ == '__main__':
     appctxt = AppContext()                      # 4. Instantiate the subclass

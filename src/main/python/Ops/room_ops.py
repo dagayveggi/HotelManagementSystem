@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets, QtCore
-from Ops.threading import tableWorker, update_table
+from Ops.threading import TableWorker, update_table
 from PyQt5.QtSql import QSqlQuery, QSqlError
 
 def update_table_onEnter(window, hlist, ui, db, thrd, model):
-    thrd.tryStart(tableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")))
+    thrd.tryStart(TableWorker(update_table("CurrentReservation", hlist, ui.tableView, db, model, where=f"RmNumber={ui.lineEdit.text()}")))
     db.open()
     if ui.lineEdit.text() != '':
         query = QSqlQuery(db)
