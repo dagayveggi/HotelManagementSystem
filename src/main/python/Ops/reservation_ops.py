@@ -50,8 +50,8 @@ def new_reservation(ui, window, db, discount, thrd, mainui, model):
     query.addBindValue(ui.lineEdit.text())
     query.addBindValue(ui.treeView.currentIndex().siblingAtColumn(1).data())
     query.addBindValue(ui.comboBox_2.currentText())
-    query.addBindValue(ui.dateEdit.date().toString("yyyy-M-d"))
-    query.addBindValue(ui.dateEdit_2.date().toString("yyyy-M-d"))
+    query.addBindValue(ui.dateEdit.date().toString("yyyy-MM-dd"))
+    query.addBindValue(ui.dateEdit_2.date().toString("yyyy-MM-dd"))
     #Check if discount is applied
     if discount:
         query.addBindValue(ui.spinBox.value())

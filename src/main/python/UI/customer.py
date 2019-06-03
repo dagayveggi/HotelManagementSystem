@@ -149,4 +149,4 @@ class Ui_Customer(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Customer", "Current Reservations"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Customer", "Archived Reservations"))
 
-import rc_rc
+import UI.rc_rc

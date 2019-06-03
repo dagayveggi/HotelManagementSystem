@@ -69,6 +69,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
 
         thrd = QThreadPool().globalInstance()
         worker = tableWorker(collect_data(ui, db))
+        thrd.tryStart(worker)
         
         ui.pushButton.clicked.connect(lambda: new_reservation(ui, new_res, db, ui.checkBox.isChecked(), thrd, mainui, model))
         ui.lineEdit.setText("RES" + str(randrange(100, 999, 10)))

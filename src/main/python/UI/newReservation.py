@@ -111,4 +111,4 @@ class Ui_Reservation(object):
         self.pushButton.setText(_translate("Reservation", "Reserve"))
         self.label_5.setText(_translate("Reservation", "Reservation ID:"))
 
-import rc_rc
+import UI.rc_rc
