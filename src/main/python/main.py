@@ -240,7 +240,7 @@ class AppContext(ApplicationContext):           # 1. Subclass ApplicationContext
                                                 "?, ?, ?, ?",
                                                 []))))
         ui.pushButton_2.clicked.connect(lambda: thrd.tryStart(TableWorker(del_DB(ui, new_addservice, db,
-                                                    "RoomService", "SrvID = ?, ResID = ?", [ui.treeView.currentIndex().siblingAtColumn(1).data(), res_index.siblingAtColumn(0).data()],
+                                                    "RoomService", "ResID = ? AND SrvID = ?", [res_index.siblingAtColumn(0).data(), ui.treeView.currentIndex().siblingAtColumn(1).data()],
                                                     []))))
 
         new_addservice.setWindowTitle('Add or remove a Service')
