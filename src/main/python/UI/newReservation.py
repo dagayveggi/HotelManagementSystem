@@ -94,6 +94,13 @@ class Ui_Reservation(object):
 
         self.retranslateUi(Reservation)
         QtCore.QMetaObject.connectSlotsByName(Reservation)
+        Reservation.setTabOrder(self.lineEdit, self.comboBox)
+        Reservation.setTabOrder(self.comboBox, self.comboBox_2)
+        Reservation.setTabOrder(self.comboBox_2, self.dateEdit)
+        Reservation.setTabOrder(self.dateEdit, self.dateEdit_2)
+        Reservation.setTabOrder(self.dateEdit_2, self.checkBox)
+        Reservation.setTabOrder(self.checkBox, self.spinBox)
+        Reservation.setTabOrder(self.spinBox, self.pushButton)
 
     def retranslateUi(self, Reservation):
         _translate = QtCore.QCoreApplication.translate

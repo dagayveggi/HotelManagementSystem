@@ -262,6 +262,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>tableView</tabstop>
+  <tabstop>tableView_2</tabstop>
+ </tabstops>
  <resources>
   <include location="rc.qrc"/>
  </resources>

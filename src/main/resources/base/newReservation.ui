@@ -221,6 +221,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>comboBox_2</tabstop>
+  <tabstop>dateEdit</tabstop>
+  <tabstop>dateEdit_2</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>spinBox</tabstop>
+  <tabstop>pushButton</tabstop>
+ </tabstops>
  <resources>
   <include location="rc.qrc"/>
  </resources>

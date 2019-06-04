@@ -116,6 +116,14 @@ class Ui_Room(object):
         self.retranslateUi(Room)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Room)
+        Room.setTabOrder(self.lineEdit, self.spinBox)
+        Room.setTabOrder(self.spinBox, self.comboBox)
+        Room.setTabOrder(self.comboBox, self.pushButton_3)
+        Room.setTabOrder(self.pushButton_3, self.pushButton_2)
+        Room.setTabOrder(self.pushButton_2, self.pushButton)
+        Room.setTabOrder(self.pushButton, self.tabWidget)
+        Room.setTabOrder(self.tabWidget, self.tableView)
+        Room.setTabOrder(self.tableView, self.tableView_2)
 
     def retranslateUi(self, Room):
         _translate = QtCore.QCoreApplication.translate
